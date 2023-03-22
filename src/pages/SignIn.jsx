@@ -1,5 +1,7 @@
+import LogIn from '../components/Log/Login/Login';
+
 function SignIn() {
-  return <div>SignIn</div>;
+  return <LogIn />;
 }
 
 export default SignIn;
