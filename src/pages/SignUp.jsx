@@ -1,5 +1,7 @@
+import Register from '../components/Log/Register/Register';
+
 function SignUp() {
-  return <div>SignUp</div>;
+  return <Register />;
 }
 
 export default SignUp;
