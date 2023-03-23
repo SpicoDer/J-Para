@@ -6,8 +6,8 @@ function LoginForm() {
   return (
     <>
       <form id='sign-in' className='mb-20 space-y-4'>
-        <InputForm type='email' />
-        <InputForm type='password' />
+        <InputForm name='email' type='email' />
+        <InputForm name='password' type='password' />
         <p className='cursor-pointer text-center text-sm capitalize underline'>
           forgot password?
         </p>
