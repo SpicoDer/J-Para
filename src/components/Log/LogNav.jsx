@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router';
 
-function LoginNav() {
+function LogNav() {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -29,4 +29,4 @@ function LoginNav() {
   );
 }
 //
-export default LoginNav;
+export default LogNav;

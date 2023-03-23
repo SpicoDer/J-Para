@@ -1,11 +1,11 @@
 import LogContainer from '../LogContainer.jsx';
-import LoginNav from './LoginNav.jsx';
+import LogNav from '../LogNav.jsx';
 import LoginForm from './LoginForm.jsx';
 
 function LogIn() {
   return (
     <LogContainer>
-      <LoginNav />
+      <LogNav />
       <div className='mt-8'>
         <LoginForm />
       </div>
