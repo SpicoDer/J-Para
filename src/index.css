@@ -11,9 +11,3 @@ body {
     @apply h-6 w-6;
   }
 }
-
-@layer components {
-  .btn {
-    @apply py-3 text-center text-sm capitalize transition hover:opacity-80;
-  }
-}
