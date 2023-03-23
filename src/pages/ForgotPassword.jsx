@@ -1,5 +1,7 @@
+import ForgotPass from '../components/Log/ForgotPassword/ForgotPass';
+
 function ForgotPassword() {
-  return <div>Forgot Password</div>;
+  return <ForgotPass />;
 }
 
 export default ForgotPassword;
