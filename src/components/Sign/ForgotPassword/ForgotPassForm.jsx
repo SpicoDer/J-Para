@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import FormInput from '../../Utils/FormInput';
+import InputForm from '../../Utils/InputForm';
 
 function ForgotPassForm() {
   const navigate = useNavigate();
@@ -7,9 +7,9 @@ function ForgotPassForm() {
   return (
     <>
       <form id='forgot-password' className='mb-20 space-y-4'>
-        <FormInput name='email' type='email' />
+        <InputForm name='email' type='email' />
       </form>
-      <button type='button' className='btn-prim w-full'>
+      <button type='button' form='forgot-password' className='btn-prim w-full'>
         reset password
       </button>
       <button

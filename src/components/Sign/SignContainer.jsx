@@ -1,6 +1,6 @@
 import Logo from '../Utils/Logo.jsx';
 
-function LogContainer(props) {
+function SignContainer(props) {
   return (
     <div className='h-screen'>
       {/* Container */}
@@ -23,4 +23,4 @@ function LogContainer(props) {
   );
 }
 
-export default LogContainer;
+export default SignContainer;

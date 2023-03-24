@@ -1,8 +1,8 @@
-import InputForm from '../../Ui/FormInput';
-import Svg from '../../Ui/svg';
+import InputForm from '../../Utils/InputForm.jsx';
+import Svg from '../../Utils/Svg.jsx';
 import { useNavigate } from 'react-router';
 
-function LoginForm() {
+function SigninForm() {
   const navigate = useNavigate();
   return (
     <>
@@ -27,4 +27,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default SigninForm;
