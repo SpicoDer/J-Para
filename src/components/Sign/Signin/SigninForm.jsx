@@ -2,6 +2,11 @@ import InputForm from '../../Utils/InputForm.jsx';
 import Svg from '../../Utils/Svg.jsx';
 import { useNavigate } from 'react-router';
 
+/**
+
+A component for the Sign In form.
+@returns {JSX.Element} JSX Element that displays the Sign In form.
+*/
 function SigninForm() {
   const navigate = useNavigate();
   return (

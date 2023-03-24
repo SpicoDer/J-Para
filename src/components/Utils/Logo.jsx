@@ -1,3 +1,9 @@
+/**
+ * A React component that renders logo.
+ *
+ * @component
+ * @return {JSX.Element} JSX element representing the logo.
+ */
 function Logo() {
   return (
     <a href='/sign-in' className='flex items-center justify-center'>

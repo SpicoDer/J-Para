@@ -1,9 +1,20 @@
 import { useLocation, useNavigate } from 'react-router';
 
+/**
+ * Component for the sign-in/sign-up navigation bar.
+ *
+ * @returns {JSX.Element} JSX element containing the navigation bar.
+ */
 function SignNav() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  /** * Checks if the given path is active based on the current location.
+   *
+   *
+   *  @param {string} path - The path to check.
+   * @returns {string} The string "border-b-2 border-prim-400" if the path is active, or an empty string otherwise.
+   */
   const activeLink = path =>
     location.pathname === path && 'border-b-2 border-prim-400';
 

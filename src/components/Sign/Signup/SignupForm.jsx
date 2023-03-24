@@ -1,5 +1,11 @@
 import InputForm from '../../Utils/InputForm.jsx';
 
+/**
+ * A React component that renders a form for user signup.
+ *
+ * @component
+ * @return {JSX.Element} JSX element representing the signup form.
+ */
 function SignupForm() {
   return (
     <>

@@ -1,6 +1,12 @@
 import { useNavigate } from 'react-router';
 import InputForm from '../../Utils/InputForm';
 
+/**
+
+A component for the Forgot Password form.
+@returns {JSX.Element} JSX Element that displays the Forgot Password form.
+*/
+
 function ForgotPassForm() {
   const navigate = useNavigate();
 

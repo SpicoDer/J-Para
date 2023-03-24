@@ -1,5 +1,13 @@
 import Logo from '../Utils/Logo.jsx';
 
+/**
+ * A container for the sign-in page with a map and content section.
+ *
+ * @param {Object} props - The props object.
+ * @param {ReactNode} props.children - The child elements to render in the content section.
+ * @returns {JSX.Element} The SignContainer component.
+ */
+
 function SignContainer(props) {
   return (
     <div className='h-screen'>

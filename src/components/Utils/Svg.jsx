@@ -1,3 +1,11 @@
+/**
+ * A React component that renders svg element.
+ *
+ * @param {Object} props - The props object.
+ *
+ * @component
+ * @return {JSX.Element} JSX element representing the svg.
+ */
 function Svg(props) {
   return (
     <svg className='icon'>
