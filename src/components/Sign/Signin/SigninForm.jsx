@@ -1,5 +1,4 @@
 import InputForm from '../../Utils/InputForm.jsx';
-import Svg from '../../Utils/Svg.jsx';
 import { useNavigate } from 'react-router';
 
 /**
@@ -25,7 +24,9 @@ function SigninForm() {
         sign in
       </button>
       <button className='btn-sec flex w-full items-center justify-center gap-2'>
-        <Svg icon='google' />
+        <svg className='icon fill-white'>
+          <use xlinkHref={`../../assets/icons.svg#google`}></use>
+        </svg>
         <p>sign in with google</p>
       </button>
     </>
