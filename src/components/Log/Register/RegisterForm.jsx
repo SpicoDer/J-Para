@@ -1,4 +1,3 @@
-import Btn from '../../Ui/Btn';
 import FormInput from '../../Ui/FormInput';
 
 function RegisterForm() {
@@ -10,13 +9,9 @@ function RegisterForm() {
         <FormInput name='password' type='password' />
         {/* <FormInput name="confirm password" type="password" /> */}
       </form>
-      <Btn
-        type='button'
-        bgColor='bg-prim-400'
-        textColor='text-white'
-        width='w-full'
-        label='sign up'
-      />
+      <button type='button' className='btn-prim w-full'>
+        sign up
+      </button>
     </>
   );
 }

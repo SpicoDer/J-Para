@@ -11,3 +11,13 @@ body {
     @apply h-6 w-6;
   }
 }
+
+@layer components {
+  .btn-prim {
+    @apply mt-4 cursor-pointer bg-prim-400 py-3 text-center text-sm capitalize text-white transition hover:opacity-80;
+  }
+
+  .btn-sec {
+    @apply mt-4 cursor-pointer bg-gray-100 py-3 text-center text-sm capitalize transition hover:opacity-80;
+  }
+}

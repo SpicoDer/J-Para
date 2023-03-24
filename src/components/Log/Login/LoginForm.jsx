@@ -1,5 +1,4 @@
 import InputForm from '../../Ui/FormInput';
-import Btn from '../../Ui/Btn.jsx';
 import Svg from '../../Ui/svg';
 import { useNavigate } from 'react-router';
 
@@ -17,16 +16,13 @@ function LoginForm() {
           forgot password?
         </p>
       </form>
-      <Btn
-        type='button'
-        label='sign in'
-        bgColor='bg-prim-400'
-        textColor='text-white'
-        width='w-full'
-      />
-      <Btn label='sign in with google' width='w-full' bgColor='bg-gray-100'>
+      <button type='button' form='sign-in' className='btn-prim w-full'>
+        sign in
+      </button>
+      <button className='btn-sec flex w-full items-center justify-center gap-2'>
         <Svg icon='google' />
-      </Btn>
+        <p>sign in with google</p>
+      </button>
     </>
   );
 }

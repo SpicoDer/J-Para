@@ -1,4 +1,4 @@
-import Logo from '../Ui/Logo.jsx';
+import Logo from '../Utils/Logo.jsx';
 
 function LogContainer(props) {
   return (

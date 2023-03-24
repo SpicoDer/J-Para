@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router';
-import Btn from '../../Ui/Btn';
-import FormInput from '../../Ui/FormInput';
+import FormInput from '../../Utils/FormInput';
 
 function ForgotPassForm() {
   const navigate = useNavigate();
@@ -10,18 +9,16 @@ function ForgotPassForm() {
       <form id='forgot-password' className='mb-20 space-y-4'>
         <FormInput name='email' type='email' />
       </form>
-      <Btn
-        label='reset password'
-        bgColor='bg-prim-400'
-        textColor='text-white'
-        width='w-full'
-        type='button'
-      />
-      <div onClick={() => navigate('/sign-in')}>
-        <Btn label='back to sign in' bgColor='bg-gray-100' width='w-full'>
-          <span className='text-[1.5rem]'>&#8592;</span>
-        </Btn>
-      </div>
+      <button type='button' className='btn-prim w-full'>
+        reset password
+      </button>
+      <button
+        onClick={() => navigate('/sign-in')}
+        className='btn-sec flex w-full items-center justify-center gap-2'
+      >
+        <span className='text-[1.5rem]'>&#8592;</span>
+        <p>back to sign in</p>
+      </button>
     </>
   );
 }
