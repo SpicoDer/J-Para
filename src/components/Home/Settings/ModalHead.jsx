@@ -2,8 +2,8 @@ import ProfileIcon from '../../Utils/ProfileIcon';
 
 function ModalHead() {
   return (
-    <div className='relative top-1/2 -translate-y-1/2 space-y-4 bg-txt-dark'>
-      <div className='flex items-center justify-center py-2'>
+    <div className='px-4'>
+      <div className='flex items-center justify-center py-4'>
         <svg className='h-8 w-8 fill-white'>
           <use xlinkHref={`../../assets/icons.svg#close`}></use>
         </svg>
@@ -19,7 +19,7 @@ function ModalHead() {
             john carlo sarmiento
           </h2>
           <p className='text-sm text-gray-400'>example@gmail.com</p>
-          <button className='btn-prim w-full rounded-full'>
+          <button className='btn-prim rounded-full px-6 py-2'>
             manage account info
           </button>
         </div>
