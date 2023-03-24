@@ -1,4 +1,5 @@
 import ModalBody from './ModalBody';
+import ModalFooter from './ModalFooter';
 import ModalHead from './ModalHead';
 
 function ModalSetting() {
@@ -7,6 +8,7 @@ function ModalSetting() {
       <div className='relative top-1/2 -translate-y-1/2 space-y-4 bg-txt-dark'>
         <ModalHead />
         <ModalBody />
+        <ModalFooter />
       </div>
     </div>
   );
