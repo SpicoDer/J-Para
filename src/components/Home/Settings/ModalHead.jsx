@@ -1,12 +1,10 @@
-import ProfileIcon from '../../Utils/ProfileIcon.jsx';
-import ModalTitle from './ModalTitle.jsx';
-
 function ModalHead() {
   return (
     <div className='px-4'>
-      <ModalTitle />
       <div className='flex gap-4'>
-        <ProfileIcon size={10} />
+        <div className='grid h-12 w-12 place-items-center rounded-full bg-prim-400'>
+          <p>JC</p>
+        </div>
         <div className='flex-grow'>
           <h2 className='text-xl font-medium capitalize'>
             john carlo sarmiento
