@@ -13,7 +13,7 @@ function SignNav() {
    *
    *
    *  @param {string} path - The path to check.
-   * @returns {string} The string "border-b-2 border-prim-400" if the path is active, or an empty string otherwise.
+   * @returns {string} The active-styles for element if the path is active, or an empty string otherwise.
    */
   const activeLink = path =>
     location.pathname === path && 'border-b-2 border-prim-400';

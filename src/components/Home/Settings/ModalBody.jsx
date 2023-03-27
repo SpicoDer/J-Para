@@ -1,4 +1,4 @@
-import ToggleBtn from '../../Utils/ToggleBtn';
+import ToggleBtn from '../ToggleBtn.jsx';
 
 function ModalBody() {
   return (

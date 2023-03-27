@@ -1,7 +1,7 @@
-import Logo from '../Utils/Logo.jsx';
+import SignLogo from './SignLogo.jsx';
 
 /**
- * A container for the sign-in page with a map and content section.
+ * A container for the sign-in, sign-up and forgot-password page with a map and content section.
  *
  * @param {Object} props - The props object.
  * @param {ReactNode} props.children - The child elements to render in the content section.
@@ -20,7 +20,7 @@ function SignContainer(props) {
           <div className='relative top-1/2 mx-auto max-w-md -translate-y-1/2  p-4'>
             {/* Head */}
             <div className='p-12'>
-              <Logo />
+              <SignLogo />
             </div>
             {/* Body */}
             {props.children}

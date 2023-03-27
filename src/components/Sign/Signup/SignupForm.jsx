@@ -1,4 +1,4 @@
-import InputForm from '../../Utils/InputForm.jsx';
+import InputForm from '../InputForm.jsx';
 
 /**
  * A React component that renders a form for user signup.

@@ -1,4 +1,4 @@
-import ProfileBody from '../components/Profile/ProfileBody';
+import ProfileBody from '../components/Profile/ProfileBody/ProfileBody.jsx';
 import ProfileHeading from '../components/Profile/ProfileHeading';
 
 function Profile() {

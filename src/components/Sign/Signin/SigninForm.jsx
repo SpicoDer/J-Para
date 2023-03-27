@@ -1,4 +1,4 @@
-import InputForm from '../../Utils/InputForm.jsx';
+import InputForm from '../InputForm.jsx';
 import { useNavigate } from 'react-router';
 
 /**
