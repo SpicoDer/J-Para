@@ -5,12 +5,12 @@ import ModalHead from './ModalHead';
 function ModalSetting({ state, toggle }) {
   return (
     state && (
-      <div className='absolute inset-0 h-screen w-screen'>
+      <div className='absolute inset-0 z-20 h-screen w-screen'>
         <div
           onClick={() => {
             toggle(!state);
           }}
-          className='z-20 h-full w-full bg-black opacity-40'
+          className=' h-full w-full bg-black opacity-60'
         ></div>
         <div className='relative left-1/2 bottom-1/2 z-30 w-9/12 -translate-y-1/2 -translate-x-1/2 space-y-6 rounded-lg bg-txt-dark text-white'>
           <div className='flex items-center justify-center px-4 pt-4'>
