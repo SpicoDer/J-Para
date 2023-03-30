@@ -1,8 +1,10 @@
+import ProfileIcon from '../../ProfileIcon.jsx';
+
 function ProfileBody() {
   return (
     <div className='p-4'>
       <div className='mb-6 flex items-center gap-4 '>
-        <div className='rounded-full bg-prim-400 p-4'>JC</div>
+        <ProfileIcon size='14' textSize='text-xl' />
         <h1 className='text-2xl font-medium capitalize'>
           john carlo sarmiento
         </h1>
