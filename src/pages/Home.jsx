@@ -8,20 +8,24 @@ function Home() {
   const [toggleOpen, setToggleOpen] = useState(false);
 
   return (
-    <div className='relative'>
-      <div
-        onClick={() => {
-          setToggleOpen(!toggleOpen);
-        }}
-        className=' absolute right-0 top-0 z-10 m-4 '
-      >
-        <ProfileIcon size='12' />
+    <>
+      <div className='relative'>
+        <div id='map' className='z-0 h-screen w-screen bg-yellow-200'></div>
+        <div
+          onClick={() => {
+            setToggleOpen(!toggleOpen);
+          }}
+          className=' absolute right-0 top-0 z-10 m-4 lg:hidden'
+        >
+          <ProfileIcon size='12' />
+        </div>
+        <MapLabel address='address' timeMins='5' />
+        <MapBtns />
       </div>
-      <ModalSetting toggle={setToggleOpen} state={toggleOpen} />
-      <div id='map' className='z-0 h-screen w-screen bg-yellow-200'></div>
-      <MapLabel address='address' timeMins='5' />
-      <MapBtns />
-    </div>
+      <div className={`${toggleOpen ? '' : 'hidden'}`}>
+        <ModalSetting toggle={setToggleOpen} state={toggleOpen} />
+      </div>
+    </>
   );
 }
 
