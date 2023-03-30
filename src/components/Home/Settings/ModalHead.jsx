@@ -6,11 +6,11 @@ function ModalHead() {
           <p>JC</p>
         </div>
         <div className='flex-grow'>
-          <h2 className='text-xl font-medium capitalize'>
+          <h2 className='font-medium capitalize sm:text-base md:text-xl'>
             john carlo sarmiento
           </h2>
           <p className='text-sm text-gray-400'>example@gmail.com</p>
-          <button className='btn-prim rounded-full px-6 py-2'>
+          <button className='btn-prim rounded-full px-6 py-2 sm:text-xs lg:text-base'>
             manage account info
           </button>
         </div>

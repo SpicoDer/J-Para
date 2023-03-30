@@ -6,11 +6,13 @@ import MapBtns from '../components/Home/Map/MapBtns';
 
 function Home() {
   const [toggleOpen, setToggleOpen] = useState(false);
-
+  ` `;
   return (
-    <>
-      <div className='relative'>
-        <div id='map' className='z-0 h-screen w-screen bg-yellow-200'></div>
+    <div className='lg:flex'>
+      <div className={`${toggleOpen ? '' : 'hidden'} bg-txt-dark lg:block`}>
+        <ModalSetting toggle={setToggleOpen} state={toggleOpen} />
+      </div>
+      <div className='relative h-screen w-screen bg-yellow-200' id='map'>
         <div
           onClick={() => {
             setToggleOpen(!toggleOpen);
@@ -22,10 +24,7 @@ function Home() {
         <MapLabel address='address' timeMins='5' />
         <MapBtns />
       </div>
-      <div className={`${toggleOpen ? '' : 'hidden'}`}>
-        <ModalSetting toggle={setToggleOpen} state={toggleOpen} />
-      </div>
-    </>
+    </div>
   );
 }
 
