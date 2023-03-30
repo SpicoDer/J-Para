@@ -5,7 +5,9 @@ function ProfileBody() {
   return (
     <>
       <ProfileName />
-      <div className='mb-4 px-4 text-lg font-medium'>Contact</div>
+      <div className='mb-4 cursor-default px-4 text-lg font-medium'>
+        Contact
+      </div>
       <ProfileForm />
     </>
   );

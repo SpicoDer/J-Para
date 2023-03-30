@@ -1,7 +1,7 @@
 function ProfileInput({ icon, type, value }) {
   return (
     <div className='flex items-center gap-4'>
-      <svg className='icon'>
+      <svg className='icon fill-prim-400'>
         <use xlinkHref={`../../../assets/icons.svg#${icon}`}></use>
       </svg>
       <input
