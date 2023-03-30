@@ -21,20 +21,20 @@
   </symbol>
 </svg>
 
-<!-- <svg class="icon">
-  <use xlink:href="#google"></use>
+<!-- <svg className="icon">
+  <use xlinkHref="#google"></use>
 </svg> 
-<svg class="icon">
-  <use xlink:href="#back"></use>
+<svg className="icon">
+  <use xlinkHref="#back"></use>
 </svg>
-<svg class="icon">
-  <use xlink:href="#close"></use>
+<svg className="icon">
+  <use xlinkHref="#close"></use>
 </svg>
-<svg class="icon">
-  <use xlink:href="#phone"></use>
+<svg className="icon">
+  <use xlinkHref="#phone"></use>
 </svg>
-<svg class="icon">
-  <use xlink:href="#email"></use>
+<svg className="icon">
+  <use xlinkHref="#email"></use>
 </svg>
 
 -->
