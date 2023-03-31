@@ -1,8 +1,13 @@
 import SignContainer from '../components/Sign/SignContainer.jsx';
 import SignNav from '../components/Sign/SignNav.jsx';
 import SigninForm from '../components/Sign/Signin/SigninForm.jsx';
+import { useEffect } from 'react';
 
-function SignIn() {
+function SignIn({ loadMap }) {
+  useEffect(() => {
+    loadMap();
+  }, []);
+
   return (
     <SignContainer>
       <SignNav />
