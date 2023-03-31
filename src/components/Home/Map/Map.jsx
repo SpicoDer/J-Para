@@ -11,7 +11,7 @@ function Map({ toggle, state }) {
           onClick={() => {
             toggle(!state);
           }}
-          className=' absolute right-0 top-0 z-10 m-4 lg:hidden'
+          className=' absolute left-0 top-0 z-10 m-4 lg:hidden'
         >
           <ProfileIcon size='12' />
         </div>
