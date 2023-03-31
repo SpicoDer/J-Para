@@ -1,12 +1,7 @@
 import SignContainer from '../components/Sign/SignContainer.jsx';
 import ForgotPassForm from '../components/Sign/ForgotPassword/ForgotPassForm.jsx';
-import { useEffect } from 'react';
 
-function ForgotPassword({ loadMap }) {
-  useEffect(() => {
-    loadMap();
-  }, []);
-
+function ForgotPassword() {
   return (
     <SignContainer>
       <div>

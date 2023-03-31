@@ -19,18 +19,9 @@ export default function App() {
             path='/sign-in'
             element={<SignIn loadMap={loadMapScenario} />}
           />
-          <Route
-            path='/sign-up'
-            element={<SignUp loadMap={loadMapScenario} />}
-          />
-          <Route
-            path='/forgot-password'
-            element={<ForgotPassword loadMap={loadMapScenario} />}
-          />
-          <Route
-            path='/profile'
-            element={<Profile loadMap={loadMapScenario} />}
-          />
+          <Route path='/sign-up' element={<SignUp />} />
+          <Route path='/forgot-password' element={<ForgotPassword />} />
+          <Route path='/profile' element={<Profile />} />
         </Routes>
       </Router>
     </>
