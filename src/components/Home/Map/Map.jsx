@@ -4,7 +4,7 @@ import MapBtns from './MapBtns.jsx';
 
 function Map({ toggle, state }) {
   return (
-    <div className='relative h-screen w-screen bg-yellow-200' id='map'>
+    <div className='relative h-full w-full bg-yellow-200' id='map'>
       <div
         onClick={() => {
           toggle(!state);

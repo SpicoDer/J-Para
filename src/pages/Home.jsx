@@ -6,7 +6,7 @@ function Home() {
   const [toggleOpen, setToggleOpen] = useState(false);
   ` `;
   return (
-    <div className='lg:flex'>
+    <div className='h-screen lg:flex'>
       <div className={`${toggleOpen ? '' : 'hidden'} bg-txt-dark lg:block`}>
         <ModalSetting toggle={setToggleOpen} state={toggleOpen} />
       </div>
