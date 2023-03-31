@@ -10,7 +10,9 @@ function Home() {
       <div className={`${toggleOpen ? '' : 'hidden'} bg-txt-dark lg:block`}>
         <ModalSetting toggle={setToggleOpen} state={toggleOpen} />
       </div>
-      <Map toggle={setToggleOpen} state={toggleOpen} />
+      <div className='relative h-full w-full'>
+        <Map toggle={setToggleOpen} state={toggleOpen} />
+      </div>
     </div>
   );
 }

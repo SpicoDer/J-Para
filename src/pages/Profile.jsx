@@ -9,7 +9,7 @@ function Profile() {
         <ProfileHeading />
         <ProfileBody />
       </div>
-      <div className='hidden h-full w-full lg:block'>
+      <div className='relative hidden h-full w-full lg:block'>
         <Map />
       </div>
     </div>
