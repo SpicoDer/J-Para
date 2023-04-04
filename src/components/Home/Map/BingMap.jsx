@@ -13,7 +13,7 @@ function BingMap() {
     // Initialize the map once the script has loaded
     window.initMap = () => {
       const map = new Microsoft.Maps.Map(document.getElementById('map'), {
-        center: new Microsoft.Maps.Location(14.9549, 120.911),
+        center: new Microsoft.Maps.Location(14.930912, 121.030519),
         zoom: 16,
         customMapStyle: {
           elements: {
@@ -31,16 +31,55 @@ function BingMap() {
         },
       });
 
-      // Add pushpins
+      // Add user pin
+      const addUserPin = function (userLoc) {
+        const userPin = new Microsoft.Maps.Pushpin(
+          new Microsoft.Maps.Location(userLoc.latitude, userLoc.longitude),
+          {
+            icon: 'https://www.bingmapsportal.com/Content/images/poi_custom.png',
+            anchor: new Microsoft.Maps.Point(12, 39),
+            text: 'JC',
+            title: 'user',
+            textOffset: new Microsoft.Maps.Point(0, 5),
+            draggable: true,
+          }
+        );
 
-      const pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), {
-        icon: 'https://www.bingmapsportal.com/Content/images/poi_custom.png',
-        anchor: new Microsoft.Maps.Point(12, 39),
-        text: 'JC',
-        title: 'User',
-        textOffset: new Microsoft.Maps.Point(0, 5),
+        for (let i = map.entities.getLength() - 1; i >= 0; i--) {
+          let pushpin = map.entities.get(i);
+          if (pushpin.getTitle() === 'user') {
+            map.entities.removeAt(i);
+          }
+        }
+        map.entities.push(userPin);
+        // center the map view
+        map.setView({ center: userPin.getLocation() });
+      };
+
+      // Add pushpins on click
+      Microsoft.Maps.Events.addHandler(map, 'click', e => {
+        addUserPin(e.location);
       });
-      map.entities.push(pushpin);
+
+      // Update puv pin
+      const updatePuvPin = function ({ lat, lng }) {
+        const puvPin = new Microsoft.Maps.Pushpin(
+          new Microsoft.Maps.Location(lat, lng),
+          {
+            icon: 'https://www.bingmapsportal.com/Content/images/poi_custom.png',
+            anchor: new Microsoft.Maps.Point(12, 39),
+            title: 'puv',
+          }
+        );
+
+        for (let i = map.entities.getLength() - 1; i >= 0; i--) {
+          let pushpin = map.entities.get(i);
+          if (pushpin.getTitle() === 'puv') {
+            map.entities.removeAt(i);
+          }
+        }
+        map.entities.push(puvPin);
+      };
     };
 
     // Clean up the script and initMap function
