@@ -1,4 +1,3 @@
-import Map from '../components/Home/Map/Map.jsx';
 import ProfileBody from '../components/Profile/ProfileBody/ProfileBody.jsx';
 import ProfileHeading from '../components/Profile/ProfileHeading';
 

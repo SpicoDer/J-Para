@@ -1,3 +1,4 @@
+import BingMap from '../Home/Map/BingMap.jsx';
 import SignLogo from './SignLogo.jsx';
 
 /**
@@ -14,7 +15,7 @@ function SignContainer(props) {
       {/* Container */}
       <div className='grid h-full gap-4 p-2 md:grid-cols-2'>
         {/* Map */}
-        <div id='map' className='hidden bg-black md:block'></div>
+        <BingMap />
         {/* Content */}
         <div>
           <div className='relative top-1/2 mx-auto max-w-md -translate-y-1/2  p-4'>

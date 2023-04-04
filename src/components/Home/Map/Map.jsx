@@ -1,11 +1,12 @@
 import MapLabel from './MapLabel.jsx';
 import ProfileIcon from '../../ProfileIcon.jsx';
 import MapBtns from './MapBtns.jsx';
+import BingMap from './BingMap.jsx';
 
 function Map({ toggle, state }) {
   return (
     <>
-      <div className='h-full w-full bg-yellow-200' id='map'></div>
+      <BingMap />
       <div>
         <div
           onClick={() => {

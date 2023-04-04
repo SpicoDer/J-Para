@@ -2,12 +2,9 @@ import ModalSetting from '../components/Home/Settings/ModalSetting';
 import { useEffect, useState } from 'react';
 import Map from '../components/Home/Map/Map';
 
-function Home({ loadMap }) {
+function Home() {
   const [toggleOpen, setToggleOpen] = useState(false);
 
-  useEffect(() => {
-    loadMap();
-  }, []);
   return (
     <div className='h-screen lg:flex'>
       <div className={`${toggleOpen ? '' : 'hidden'} bg-txt-dark lg:block`}>
