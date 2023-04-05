@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 function BingMap() {
-  async function getUserCoordinates() {
+  const getUserCoordinates = async function () {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         position => {
@@ -11,7 +11,22 @@ function BingMap() {
         error => reject(error)
       );
     });
-  }
+  };
+
+  const fetchPuvCoordinates = async function () {
+    try {
+      const response = await fetch(
+        'https://jparatest.000webhostapp.com/location/read.php'
+      );
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
+
+      const puv = await response.json();
+      return puv.coordinates;
+    } catch (error) {
+      console.error(`Error: ${error.message}`);
+    }
+  };
 
   useEffect(() => {
     // Load the Bing Maps API script
@@ -24,7 +39,7 @@ function BingMap() {
 
     (async () => {
       const userCoords = await getUserCoordinates();
-      console.log(userCoords);
+      let puvCoords = await fetchPuvCoordinates();
 
       // NOTE: Initialize the map once the script has loaded
       window.initMap = () => {
@@ -110,6 +125,18 @@ function BingMap() {
         Microsoft.Maps.Events.addHandler(map, 'click', e => {
           addUserPinOnMap(e.location);
         });
+
+        // Add puv push pins on the map every 15 secs
+        const invokeObj = createPinInstance(puvCoords, null);
+        Microsoft.Maps.Events.addHandler(invokeObj, 'click', () => {
+          // addPuvPinOnMap(puvCoords);
+          addPuvPinOnMap(puvCoords);
+        });
+
+        setInterval(async () => {
+          puvCoords = await fetchPuvCoordinates();
+          Microsoft.Maps.Events.invoke(invokeObj, 'click');
+        }, 15000);
       };
     })();
 
