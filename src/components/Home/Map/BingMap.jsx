@@ -1,6 +1,20 @@
 import { useEffect } from 'react';
 
+/**
+
+* A React component that displays a Bing Map and adds push pins to the map
+* representing the user's current location and a public utility vehicle (PUV) location.
+* @component
+*/
 function BingMap() {
+  /**
+
+* Asynchronously retrieves the user's current location using the browser's geolocation API.
+* @async
+* @function
+* @returns {Promise<{ latitude: number, longitude: number }>} A promise that resolves with an object containing the user's latitude and longitude.
+* @throws {Error} If an error occurs while retrieving the user's location.
+*/
   const getUserCoordinates = async function () {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
@@ -13,6 +27,14 @@ function BingMap() {
     });
   };
 
+  /**
+
+* Asynchronously fetches the coordinates of the public utility vehicle (PUV) from an API.
+* @async
+* @function
+* @returns {Promise<{ latitude: number, longitude: number }>} A promise that resolves with an object containing the PUV's latitude and longitude.
+* @throws {Error} If an HTTP error occurs or the API response cannot be parsed as JSON.
+*/
   const fetchPuvCoordinates = async function () {
     try {
       const response = await fetch(
@@ -28,6 +50,12 @@ function BingMap() {
     }
   };
 
+  /**
+
+* A React hook that loads the Bing Maps API script, initializes the map and push pins, and cleans up the script and initMap function when the component is unmounted.
+* @function
+* @see https://reactjs.org/docs/hooks-effect.html
+*/
   useEffect(() => {
     // Load the Bing Maps API script
     const script = document.createElement('script');
@@ -112,6 +140,7 @@ function BingMap() {
           const puvPin = createPinInstance(coords, pinOptions);
           puvPinlayer.clear();
           puvPinlayer.add(puvPin);
+          map.setView({ center: puvPin.getLocation() });
 
           return puvPin.getLocation();
         };
