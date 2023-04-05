@@ -7,12 +7,15 @@ function BingMap() {
     script.type = 'text/javascript';
     script.async = true;
     script.defer = true;
-    script.src = `https://www.bing.com/api/maps/mapcontrol?key=AiPKZ0UNBJO5u_ZL2cGw2YDZLiZYiZIiOfI_wBzlfGG1RFcvl63BsHndlXFihfGO&callback=initMap`;
+    script.src = `https://www.bing.com/api/maps/mapcontrol?callback=initMap`;
     document.body.appendChild(script);
 
-    // Initialize the map once the script has loaded
+    // NOTE: Initialize the map once the script has loaded
+
     window.initMap = () => {
       const map = new Microsoft.Maps.Map(document.getElementById('map'), {
+        credentials:
+          'AiPKZ0UNBJO5u_ZL2cGw2YDZLiZYiZIiOfI_wBzlfGG1RFcvl63BsHndlXFihfGO',
         center: new Microsoft.Maps.Location(14.930912, 121.030519),
         zoom: 16,
         customMapStyle: {
@@ -31,58 +34,65 @@ function BingMap() {
         },
       });
 
-      // Add user pin
-      const addUserPin = function (userLoc) {
-        const userPin = new Microsoft.Maps.Pushpin(
-          new Microsoft.Maps.Location(userLoc.latitude, userLoc.longitude),
-          {
-            icon: 'https://www.bingmapsportal.com/Content/images/poi_custom.png',
-            anchor: new Microsoft.Maps.Point(12, 39),
-            text: 'JC',
-            title: 'user',
-            textOffset: new Microsoft.Maps.Point(0, 5),
-            draggable: true,
-          }
+      // NOTE: Reusable functions
+      const createPinInstance = function ({ latitude, longitude }, pinOptions) {
+        return new Microsoft.Maps.Pushpin(
+          new Microsoft.Maps.Location(latitude, longitude),
+          pinOptions
         );
+      };
 
-        for (let i = map.entities.getLength() - 1; i >= 0; i--) {
-          let pushpin = map.entities.get(i);
-          if (pushpin.getTitle() === 'user') {
-            map.entities.removeAt(i);
-          }
-        }
-        map.entities.push(userPin);
-        // center the map view
+      // NOTE: Adding layers to map
+      const userPinLayer = new Microsoft.Maps.Layer();
+      const puvPinlayer = new Microsoft.Maps.Layer();
+      map.layers.insertAll([userPinLayer, puvPinlayer]);
+
+      // NOTE: Render push pins on map
+      const addUserPinOnMap = function (coords) {
+        const pinOptions = {
+          icon: 'https://www.bingmapsportal.com/Content/images/poi_custom.png',
+          anchor: new Microsoft.Maps.Point(12, 39),
+          text: 'JC',
+          title: 'User',
+          textOffset: new Microsoft.Maps.Point(0, 5),
+          draggable: true,
+        };
+
+        const userPin = createPinInstance(coords, pinOptions);
+        userPinLayer.clear();
+        userPinLayer.add(userPin);
         map.setView({ center: userPin.getLocation() });
       };
 
-      // Add pushpins on click
-      Microsoft.Maps.Events.addHandler(map, 'click', e => {
-        addUserPin(e.location);
-      });
+      const addPuvPinOnMap = function (coords) {
+        const pinOptions = {
+          icon: 'https://www.bingmapsportal.com/Content/images/poi_custom.png',
+          anchor: new Microsoft.Maps.Point(12, 39),
+          text: 'PaRA',
+          title: 'PUV',
+          textOffset: new Microsoft.Maps.Point(0, 5),
+        };
 
-      // Update puv pin
-      const updatePuvPin = function ({ lat, lng }) {
-        const puvPin = new Microsoft.Maps.Pushpin(
-          new Microsoft.Maps.Location(lat, lng),
-          {
-            icon: 'https://www.bingmapsportal.com/Content/images/poi_custom.png',
-            anchor: new Microsoft.Maps.Point(12, 39),
-            title: 'puv',
-          }
-        );
+        const puvPin = createPinInstance(coords, pinOptions);
+        puvPinlayer.clear();
+        puvPinlayer.add(puvPin);
 
-        for (let i = map.entities.getLength() - 1; i >= 0; i--) {
-          let pushpin = map.entities.get(i);
-          if (pushpin.getTitle() === 'puv') {
-            map.entities.removeAt(i);
-          }
-        }
-        map.entities.push(puvPin);
+        return puvPin.getLocation();
       };
+
+      // NOTE: Adding push pins
+
+      // TODO: add the return coordinates of geolocation API
+      // Add user push pins on user current location by default
+      addUserPinOnMap({ latitude: 14.930912, longitude: 121.030519 });
+
+      // Add user push pins on the location where user clicks on map
+      Microsoft.Maps.Events.addHandler(map, 'click', e => {
+        addUserPinOnMap(e.location);
+      });
     };
 
-    // Clean up the script and initMap function
+    // NOTE: Clean up the script and initMap function
     return () => {
       document.body.removeChild(script);
       delete window.initMap;
