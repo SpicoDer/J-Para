@@ -6,50 +6,7 @@ import { useEffect } from 'react';
 * representing the user's current location and a public utility vehicle (PUV) location.
 * @component
 */
-function BingMap() {
-  /**
-
-* Asynchronously retrieves the user's current location using the browser's geolocation API.
-* @async
-* @function
-* @returns {Promise<{ latitude: number, longitude: number }>} A promise that resolves with an object containing the user's latitude and longitude.
-* @throws {Error} If an error occurs while retrieving the user's location.
-*/
-  const getUserCoordinates = async function () {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          const { latitude, longitude } = position.coords;
-          resolve({ latitude, longitude });
-        },
-        error => reject(error)
-      );
-    });
-  };
-
-  /**
-
-* Asynchronously fetches the coordinates of the public utility vehicle (PUV) from an API.
-* @async
-* @function
-* @returns {Promise<{ latitude: number, longitude: number }>} A promise that resolves with an object containing the PUV's latitude and longitude.
-* @throws {Error} If an HTTP error occurs or the API response cannot be parsed as JSON.
-*/
-  const fetchPuvCoordinates = async function () {
-    try {
-      const response = await fetch(
-        'https://jparatest.000webhostapp.com/location/read.php'
-      );
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
-
-      const puv = await response.json();
-      return puv.coordinates;
-    } catch (error) {
-      console.error(`Error: ${error.message}`);
-    }
-  };
-
+function BingMap({ getUserCoords, getPuvCoords }) {
   /**
 
 * A React hook that loads the Bing Maps API script, initializes the map and push pins, and cleans up the script and initMap function when the component is unmounted.
@@ -66,8 +23,8 @@ function BingMap() {
     document.body.appendChild(script);
 
     (async () => {
-      const userCoords = await getUserCoordinates();
-      let puvCoords = await fetchPuvCoordinates();
+      const userCoords = await getUserCoords();
+      let puvCoords = await getPuvCoords();
 
       // NOTE: Initialize the map once the script has loaded
       window.initMap = () => {
@@ -163,7 +120,7 @@ function BingMap() {
         });
 
         setInterval(async () => {
-          puvCoords = await fetchPuvCoordinates();
+          puvCoords = await getPuvCoords();
           Microsoft.Maps.Events.invoke(invokeObj, 'click');
         }, 15000);
       };
