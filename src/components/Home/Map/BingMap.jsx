@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 * representing the user's current location and a public utility vehicle (PUV) location.
 * @component
 */
-function BingMap({ getUserCoords, getPuvCoords }) {
+function BingMap({ coords, getUserCoords, getPuvCoords }) {
   /**
 
 * A React hook that loads the Bing Maps API script, initializes the map and push pins, and cleans up the script and initMap function when the component is unmounted.
@@ -23,8 +23,9 @@ function BingMap({ getUserCoords, getPuvCoords }) {
     document.body.appendChild(script);
 
     (async () => {
-      const userCoords = await getUserCoords();
-      let puvCoords = await getPuvCoords();
+      await getUserCoords();
+      await getPuvCoords();
+      const { userCoords, puvCoords } = coords;
 
       // NOTE: Initialize the map once the script has loaded
       window.initMap = () => {
@@ -106,6 +107,8 @@ function BingMap({ getUserCoords, getPuvCoords }) {
 
         // Add user push pins on user current location by default
         addUserPinOnMap(userCoords);
+        // Add puv push pins on map on start
+        addPuvPinOnMap(puvCoords);
 
         // Add user push pins on the location where user clicks on map
         Microsoft.Maps.Events.addHandler(map, 'click', e => {
@@ -120,7 +123,7 @@ function BingMap({ getUserCoords, getPuvCoords }) {
         });
 
         setInterval(async () => {
-          puvCoords = await getPuvCoords();
+          await getPuvCoords();
           Microsoft.Maps.Events.invoke(invokeObj, 'click');
         }, 15000);
       };
