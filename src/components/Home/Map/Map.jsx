@@ -57,22 +57,11 @@ function Map({ toggle, state }) {
       console.error(`Error: ${error.message}`);
     }
   };
-  // Return users & puv current location on map
-  // It returns an object with lat and lng
-  // FIX: When calling on map label, you need to pass argument to initalize it.
-  // TODO: create a function that when you call will just return the value
-
-  // const userCurrentLoc = userLoc => {
-  //   return { latitude: userLoc.latitude, longitude: userLoc.longitude };
-  // };
-  // const puvCurrentLoc = puvLoc => {
-  //   return { latitude: puvLoc.latitude, longitude: puvLoc.longitude };
-  // };
 
   return (
     <>
       <BingMap
-        coords={coordinates}
+        coordinates={coordinates}
         getUserCoords={fetchUserCoordinates}
         getPuvCoords={fetchPuvCoordinates}
       />

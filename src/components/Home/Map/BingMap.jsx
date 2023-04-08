@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 * representing the user's current location and a public utility vehicle (PUV) location.
 * @component
 */
-function BingMap({ coords, getUserCoords, getPuvCoords }) {
+function BingMap({ coordinates, getUserCoords, getPuvCoords }) {
   /**
 
 * A React hook that loads the Bing Maps API script, initializes the map and push pins, and cleans up the script and initMap function when the component is unmounted.
@@ -25,7 +25,6 @@ function BingMap({ coords, getUserCoords, getPuvCoords }) {
     (async () => {
       await getUserCoords();
       await getPuvCoords();
-      const { userCoords, puvCoords } = coords;
 
       // NOTE: Initialize the map once the script has loaded
       window.initMap = () => {
@@ -33,8 +32,8 @@ function BingMap({ coords, getUserCoords, getPuvCoords }) {
           credentials:
             'AiPKZ0UNBJO5u_ZL2cGw2YDZLiZYiZIiOfI_wBzlfGG1RFcvl63BsHndlXFihfGO',
           center: new Microsoft.Maps.Location(
-            userCoords.latitude,
-            userCoords.longitude
+            coordinates.userCoords.latitude,
+            coordinates.userCoords.longitude
           ),
           zoom: 16,
           customMapStyle: {
@@ -69,7 +68,7 @@ function BingMap({ coords, getUserCoords, getPuvCoords }) {
         const puvPinlayer = new Microsoft.Maps.Layer();
         map.layers.insertAll([userPinLayer, puvPinlayer]);
 
-        // NOTE: Render push pins on map
+        // NOTE: Render push pins on map and return its location to coordinates obj
         const addUserPinOnMap = function (coords) {
           const pinOptions = {
             icon: 'https://www.bingmapsportal.com/Content/images/poi_custom.png',
@@ -79,11 +78,13 @@ function BingMap({ coords, getUserCoords, getPuvCoords }) {
             textOffset: new Microsoft.Maps.Point(0, 5),
             draggable: true,
           };
-
+          console.log(coords);
           const userPin = createPinInstance(coords, pinOptions);
           userPinLayer.clear();
           userPinLayer.add(userPin);
           map.setView({ center: userPin.getLocation() });
+          coordinates.userCoords = userPin.getLocation();
+          console.log(coordinates.userCoords);
         };
 
         const addPuvPinOnMap = function (coords) {
@@ -94,21 +95,18 @@ function BingMap({ coords, getUserCoords, getPuvCoords }) {
             title: 'PUV',
             textOffset: new Microsoft.Maps.Point(0, 5),
           };
-
           const puvPin = createPinInstance(coords, pinOptions);
           puvPinlayer.clear();
           puvPinlayer.add(puvPin);
           map.setView({ center: puvPin.getLocation() });
-
-          return puvPin.getLocation();
+          coordinates.userCoords = puvPin.getLocation();
         };
 
         // NOTE: Adding push pins
 
-        // Add user push pins on user current location by default
-        addUserPinOnMap(userCoords);
-        // Add puv push pins on map on start
-        addPuvPinOnMap(puvCoords);
+        // Add push pins on map on start
+        addUserPinOnMap(coordinates.userCoords);
+        addPuvPinOnMap(coordinates.puvCoords);
 
         // Add user push pins on the location where user clicks on map
         Microsoft.Maps.Events.addHandler(map, 'click', e => {
@@ -116,15 +114,9 @@ function BingMap({ coords, getUserCoords, getPuvCoords }) {
         });
 
         // Add puv push pins on the map every 15 secs
-        const invokeObj = createPinInstance(puvCoords, null);
-        Microsoft.Maps.Events.addHandler(invokeObj, 'click', () => {
-          // addPuvPinOnMap(puvCoords);
-          addPuvPinOnMap(puvCoords);
-        });
-
         setInterval(async () => {
           await getPuvCoords();
-          Microsoft.Maps.Events.invoke(invokeObj, 'click');
+          addPuvPinOnMap(coordinates.puvCoords);
         }, 15000);
       };
     })();
