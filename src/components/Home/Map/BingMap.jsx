@@ -78,13 +78,11 @@ function BingMap({ coordinates, getUserCoords, getPuvCoords }) {
             textOffset: new Microsoft.Maps.Point(0, 5),
             draggable: true,
           };
-          console.log(coords);
           const userPin = createPinInstance(coords, pinOptions);
           userPinLayer.clear();
           userPinLayer.add(userPin);
           map.setView({ center: userPin.getLocation() });
           coordinates.userCoords = userPin.getLocation();
-          console.log(coordinates.userCoords);
         };
 
         const addPuvPinOnMap = function (coords) {
@@ -99,14 +97,13 @@ function BingMap({ coordinates, getUserCoords, getPuvCoords }) {
           puvPinlayer.clear();
           puvPinlayer.add(puvPin);
           map.setView({ center: puvPin.getLocation() });
-          coordinates.userCoords = puvPin.getLocation();
+          coordinates.puvCoords = puvPin.getLocation();
         };
 
         // NOTE: Adding push pins
 
         // Add push pins on map on start
         addUserPinOnMap(coordinates.userCoords);
-        addPuvPinOnMap(coordinates.puvCoords);
 
         // Add user push pins on the location where user clicks on map
         Microsoft.Maps.Events.addHandler(map, 'click', e => {
