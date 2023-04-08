@@ -7,7 +7,7 @@ function MapIncrementBtn() {
     <button className={`flex rounded-xl border border-prim-400 bg-prim-400`}>
       <span
         onClick={() => {
-          if (notifTime > 0) setNotifTime(time => time - 1);
+          if (notifTime > 1) setNotifTime(time => time - 1);
         }}
         className={`px-2 text-2xl text-white`}
       >

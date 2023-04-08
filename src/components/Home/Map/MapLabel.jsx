@@ -1,13 +1,7 @@
-function MapLabel({ address }) {
-  // TEST COORDINATES:
-  const userCoords = {
-    latitude: 14.930939437753212,
-    longitude: 121.03090571201302,
-  };
-  const puvCoords = {
-    latitude: 14.941031957921565,
-    longitude: 121.01702835342887,
-  };
+import { useState } from 'react';
+
+function MapLabel({ address, coordinates }) {
+  const [estimatedTime, setEstimatedTime] = useState(0);
 
   /**
    * Calculates the distance between two geographic points in meters.
@@ -20,7 +14,8 @@ function MapLabel({ address }) {
    * @param {number} point2.lon2 - The longitude of the second point in decimal degrees.
    * @returns {number} The distance between the two points in meters.
    */
-  function getDistanceFromLatLonInMeters(
+
+  const getDistanceFromLatLonInMeters = function (
     { latitude: lat1, longitude: lon1 },
     { latitude: lat2, longitude: lon2 }
   ) {
@@ -35,7 +30,7 @@ function MapLabel({ address }) {
 
     const distance = Math.sqrt(x * x + y * y) * R;
     return distance;
-  }
+  };
 
   /**
    * Calculates the travel time in minutes between two geographic points for a public utility vehicle (PUV) traveling at a fixed speed of 30 km/h.
@@ -48,20 +43,21 @@ function MapLabel({ address }) {
    * @param {number} puvCoords.lon2 - The longitude of the PUV's destination in decimal degrees.
    * @returns {number} The travel time in minutes between the user's current location and the PUV's destination.
    */
-  function getTravelTimeInMinutes(userCoords, puvCoords) {
+  const getTravelTimeInMinutes = function () {
     const distanceInMeters = getDistanceFromLatLonInMeters(
-      userCoords,
-      puvCoords
+      coordinates.userCoords,
+      coordinates.puvCoords
     );
+
     const speedInMetersPerSecond = 30 / 3.6; // Convert km/h to m/s
     const travelTimeInSeconds = distanceInMeters / speedInMetersPerSecond;
     const travelTimeInMinutes = travelTimeInSeconds / 60;
-    return travelTimeInMinutes;
-  }
+    setEstimatedTime(travelTimeInMinutes.toFixed(0));
+  };
 
-  const estimatedTime = getTravelTimeInMinutes(userCoords, puvCoords).toFixed(
-    0
-  );
+  setInterval(() => {
+    getTravelTimeInMinutes();
+  }, 15000);
 
   return (
     <div className='absolute bottom-2 left-4 right-4 z-10 rounded-lg bg-prim-400 p-2 py-4 text-sm text-white md:text-base lg:text-lg'>

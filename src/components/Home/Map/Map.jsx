@@ -52,7 +52,8 @@ function Map({ toggle, state }) {
         throw new Error(`HTTP error! status: ${response.status}`);
 
       const fetchCoords = await response.json();
-      coordinates.puvCoords = fetchCoords.coordinates;
+      const { latitude, longitude } = fetchCoords.coordinates;
+      coordinates.puvCoords = { latitude: +latitude, longitude: +longitude };
     } catch (error) {
       console.error(`Error: ${error.message}`);
     }
@@ -75,7 +76,9 @@ function Map({ toggle, state }) {
         >
           <ProfileIcon size='12' />
         </div>
-        <MapLabel address='address' />
+        <div>
+          <MapLabel address='address' coordinates={coordinates} />
+        </div>
         <MapBtns />
       </div>
     </>
