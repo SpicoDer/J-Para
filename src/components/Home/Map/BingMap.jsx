@@ -114,7 +114,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
         setInterval(async () => {
           await getPuvCoords();
           addPuvPinOnMap(paraMap.coordinates.puvCoords);
-          // paraMap.updateEstimatedTime();
+          paraMap.updateEstimatedTime();
         }, 15000);
       };
     })();
