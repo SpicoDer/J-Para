@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
 function MapLabel({ address, map }) {
-  const [estimatedTime, setEstimatedTime] = useState(0);
+  const [estimatedTime, setEstimatedTime] = useState(10);
+  map.estimatedTime = +estimatedTime; // update estimated time in map object
 
   /**
    * Calculates the distance between two geographic points in meters.

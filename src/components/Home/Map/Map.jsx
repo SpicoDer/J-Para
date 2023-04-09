@@ -10,6 +10,9 @@ function Map({ toggle, state }) {
       userCoords: '',
       puvCoords: '',
     },
+    notifTime: 5,
+    estimatedTime: 10,
+    triggerNotif: triggerNotification,
   };
 
   /**
@@ -64,6 +67,10 @@ function Map({ toggle, state }) {
     }
   };
 
+  function triggerNotification() {
+    map.mapNotifSetTriggered(map.estimatedTime <= map.notifTime);
+  }
+
   return (
     <>
       <BingMap
@@ -71,7 +78,7 @@ function Map({ toggle, state }) {
         getUserCoords={fetchUserCoordinates}
         getPuvCoords={fetchPuvCoordinates}
       />
-      <MapNotif />
+      <MapNotif map={map} />
       <div>
         <div
           onClick={() => {
@@ -84,7 +91,7 @@ function Map({ toggle, state }) {
         <div>
           <MapLabel address='address' map={map} />
         </div>
-        <MapBtns />
+        <MapBtns map={map} />
       </div>
     </>
   );

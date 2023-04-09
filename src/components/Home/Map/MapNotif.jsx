@@ -1,10 +1,15 @@
 import { useState } from 'react';
 
-function MapNotif() {
-  const [close, setClose] = useState(true);
+function MapNotif({ map }) {
+  const [triggered, setTriggered] = useState(false);
+
+  // Create a method to update the triggered state
+  map.mapNotifSetTriggered = function (isTriggered) {
+    setTriggered(isTriggered);
+  };
 
   return (
-    <div className={`${close && 'hidden'}`}>
+    <div className={`${triggered ? '' : 'hidden'}`}>
       <div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 rounded-lg bg-white p-8 shadow-xl'>
         <img
           src='../../../assets/logo.svg'
@@ -17,7 +22,7 @@ function MapNotif() {
         <button
           className='btn-prim w-full rounded-full'
           onClick={() => {
-            setClose(false);
+            setTriggered(false);
           }}
         >
           Close

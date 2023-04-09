@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
-function MapIncrementBtn() {
+function MapIncrementBtn({ map }) {
   let [notifTime, setNotifTime] = useState(5);
+  map.notifTime = notifTime; // update notification time in map object
 
   return (
     <button className={`flex rounded-xl border border-prim-400 bg-prim-400`}>
