@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 * representing the user's current location and a public utility vehicle (PUV) location.
 * @component
 */
-function BingMap({ coordinates, getUserCoords, getPuvCoords }) {
+function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
   /**
 
 * A React hook that loads the Bing Maps API script, initializes the map and push pins, and cleans up the script and initMap function when the component is unmounted.
@@ -32,8 +32,8 @@ function BingMap({ coordinates, getUserCoords, getPuvCoords }) {
           credentials:
             'AiPKZ0UNBJO5u_ZL2cGw2YDZLiZYiZIiOfI_wBzlfGG1RFcvl63BsHndlXFihfGO',
           center: new Microsoft.Maps.Location(
-            coordinates.userCoords.latitude,
-            coordinates.userCoords.longitude
+            paraMap.coordinates.userCoords.latitude,
+            paraMap.coordinates.userCoords.longitude
           ),
           zoom: 16,
           customMapStyle: {
@@ -82,7 +82,7 @@ function BingMap({ coordinates, getUserCoords, getPuvCoords }) {
           userPinLayer.clear();
           userPinLayer.add(userPin);
           map.setView({ center: userPin.getLocation() });
-          coordinates.userCoords = userPin.getLocation();
+          paraMap.coordinates.userCoords = userPin.getLocation();
         };
 
         const addPuvPinOnMap = function (coords) {
@@ -97,13 +97,13 @@ function BingMap({ coordinates, getUserCoords, getPuvCoords }) {
           puvPinlayer.clear();
           puvPinlayer.add(puvPin);
           map.setView({ center: puvPin.getLocation() });
-          coordinates.puvCoords = puvPin.getLocation();
+          paraMap.coordinates.puvCoords = puvPin.getLocation();
         };
 
         // NOTE: Adding push pins
 
         // Add push pins on map on start
-        addUserPinOnMap(coordinates.userCoords);
+        addUserPinOnMap(paraMap.coordinates.userCoords);
 
         // Add user push pins on the location where user clicks on map
         Microsoft.Maps.Events.addHandler(map, 'click', e => {
@@ -113,7 +113,8 @@ function BingMap({ coordinates, getUserCoords, getPuvCoords }) {
         // Add puv push pins on the map every 15 secs
         setInterval(async () => {
           await getPuvCoords();
-          addPuvPinOnMap(coordinates.puvCoords);
+          addPuvPinOnMap(paraMap.coordinates.puvCoords);
+          // paraMap.updateEstimatedTime();
         }, 15000);
       };
     })();

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function MapLabel({ address, coordinates }) {
+function MapLabel({ address, map }) {
   const [estimatedTime, setEstimatedTime] = useState(0);
 
   /**
@@ -45,8 +45,8 @@ function MapLabel({ address, coordinates }) {
    */
   const getTravelTimeInMinutes = function () {
     const distanceInMeters = getDistanceFromLatLonInMeters(
-      coordinates.userCoords,
-      coordinates.puvCoords
+      map.coordinates.userCoords,
+      map.coordinates.puvCoords
     );
 
     const speedInMetersPerSecond = 30 / 3.6; // Convert km/h to m/s
@@ -55,10 +55,17 @@ function MapLabel({ address, coordinates }) {
     setEstimatedTime(travelTimeInMinutes.toFixed(0));
   };
 
-  setInterval(() => {
-    getTravelTimeInMinutes();
-  }, 15000);
+  /**
 
+  * Calculates and sets the estimated travel time in minutes between the user's current location and the PUV's destination.
+  * Uses the getTravelTimeInMinutes function to calculate the travel time based on the geographic coordinates of the user and the PUV's destination.
+  * Updates the estimatedTime state with the calculated travel time in minutes.
+  * @function
+  * @memberof coordinates
+  */
+  // map.updateEstimatedTime = function () {
+  //   getTravelTimeInMinutes();
+  // };
   return (
     <div className='absolute bottom-2 left-4 right-4 z-10 rounded-lg bg-prim-400 p-2 py-4 text-sm text-white md:text-base lg:text-lg'>
       <p className='ml-4'>{address}</p>

@@ -5,9 +5,11 @@ import BingMap from './BingMap.jsx';
 import MapNotif from './MapNotif.jsx';
 
 function Map({ toggle, state }) {
-  const coordinates = {
-    userCoords: '',
-    puvCoords: '',
+  const map = {
+    coordinates: {
+      userCoords: '',
+      puvCoords: '',
+    },
   };
 
   /**
@@ -32,7 +34,7 @@ function Map({ toggle, state }) {
 
   const fetchUserCoordinates = async function () {
     const { latitude, longitude } = await getUserPosition();
-    coordinates.userCoords = { latitude: latitude, longitude: longitude };
+    map.coordinates.userCoords = { latitude: latitude, longitude: longitude };
   };
 
   /**
@@ -53,7 +55,10 @@ function Map({ toggle, state }) {
 
       const fetchCoords = await response.json();
       const { latitude, longitude } = fetchCoords.coordinates;
-      coordinates.puvCoords = { latitude: +latitude, longitude: +longitude };
+      map.coordinates.puvCoords = {
+        latitude: +latitude,
+        longitude: +longitude,
+      };
     } catch (error) {
       console.error(`Error: ${error.message}`);
     }
@@ -62,7 +67,7 @@ function Map({ toggle, state }) {
   return (
     <>
       <BingMap
-        coordinates={coordinates}
+        paraMap={map}
         getUserCoords={fetchUserCoordinates}
         getPuvCoords={fetchPuvCoordinates}
       />
@@ -77,7 +82,7 @@ function Map({ toggle, state }) {
           <ProfileIcon size='12' />
         </div>
         <div>
-          <MapLabel address='address' coordinates={coordinates} />
+          <MapLabel address='address' map={map} />
         </div>
         <MapBtns />
       </div>
