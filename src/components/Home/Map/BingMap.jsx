@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { FETCH_TIME } from '../../../config';
 
 /**
 
@@ -111,11 +112,13 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
         });
 
         // Add puv push pins on the map every 15 secs
+        const intervalTime = FETCH_TIME * 1000; // Convert secs to ms
+
         setInterval(async () => {
           await getPuvCoords();
           addPuvPinOnMap(paraMap.coordinates.puvCoords);
           paraMap.updateEstimatedTime();
-        }, 15000);
+        }, intervalTime);
       };
     })();
 
