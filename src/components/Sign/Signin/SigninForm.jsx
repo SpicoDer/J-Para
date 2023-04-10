@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import InputForm from '../InputForm.jsx';
 import { useNavigate } from 'react-router';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { db } from '../../../firebase';
@@ -22,20 +27,27 @@ function SigninForm() {
     setPassword(e.target.value);
   };
 
-  const submitHandler = function (e) {
+  const navigate = useNavigate();
+
+  const submitHandler = async function (e) {
     e.preventDefault();
 
-    const signinFormData = {
-      email: email,
-      password: password,
-    };
-    console.log(signinFormData);
+    try {
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
+      if (userCredential.user) navigate('/');
+    } catch (error) {
+      toast.error('Sorry we could not find your account');
+    }
     setEmail('');
     setPassword('');
   };
 
-  const navigate = useNavigate();
   const onGoogleClick = async function () {
     try {
       // initialize google auth and get the result
