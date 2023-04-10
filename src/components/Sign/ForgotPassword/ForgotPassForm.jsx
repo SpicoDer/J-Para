@@ -1,5 +1,8 @@
 import { useNavigate } from 'react-router';
 import InputForm from '../InputForm.jsx';
+import { useState } from 'react';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
+import { toast } from 'react-toastify';
 
 /**
 
@@ -10,12 +13,41 @@ A component for the Forgot Password form.
 function ForgotPassForm() {
   const navigate = useNavigate();
 
+  const [email, setEmail] = useState('');
+
+  const emailChangeHandler = function (e) {
+    setEmail(e.target.value);
+  };
+
+  const submitHandler = async function (e) {
+    e.preventDefault();
+
+    try {
+      const auth = getAuth();
+      await sendPasswordResetEmail(auth, email);
+      toast.success('Email was sent');
+    } catch (error) {
+      toast.error('Could not send reset password');
+    }
+
+    setEmail('');
+  };
   return (
     <>
-      <form id='forgot-password' className='mb-20 space-y-4'>
-        <InputForm name='email' type='email' />
+      <form
+        id='forgot-password'
+        onSubmit={submitHandler}
+        className='mb-20 space-y-4'
+      >
+        <InputForm
+          label='email'
+          name='email'
+          type='email'
+          value={email}
+          handler={emailChangeHandler}
+        />
       </form>
-      <button type='button' form='forgot-password' className='btn-prim w-full'>
+      <button type='submit' form='forgot-password' className='btn-prim w-full'>
         reset password
       </button>
       <button
