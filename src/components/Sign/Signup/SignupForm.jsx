@@ -7,6 +7,7 @@ import {
 } from 'firebase/auth';
 import { db } from '../../../firebase.js';
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 /**
  * A React component that renders a form for user signup.
  *
@@ -39,7 +40,7 @@ function SignupForm() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      console.log('error');
+      toast.error('Password and Confirm Password fields do not match');
       setPassword('');
       setConfirmPassword('');
       return;
@@ -70,7 +71,7 @@ function SignupForm() {
       // Upload signup form data to document in users collection with unique id
       await setDoc(doc(db, 'users', user.uid), signupFormData);
     } catch (error) {
-      console.log(error);
+      toast.error('Something went wrong with the registration');
     }
 
     setName('');

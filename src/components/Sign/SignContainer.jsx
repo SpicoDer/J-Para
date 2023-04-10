@@ -13,7 +13,7 @@ function SignContainer(props) {
   return (
     <div className='h-screen'>
       {/* Container */}
-      <div className='grid h-full gap-4 p-2 lg:grid-cols-2'>
+      <div className='grid h-full gap-4 p-2 pr-12 lg:grid-cols-2'>
         {/* Content */}
         <div>
           <div className='relative top-1/2 mx-auto max-w-md -translate-y-1/2'>
