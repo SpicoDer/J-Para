@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FETCH_TIME } from '../../../config';
 
 function MapLabel({ address, map }) {
   const [estimatedTime, setEstimatedTime] = useState(10);
@@ -33,8 +34,33 @@ function MapLabel({ address, map }) {
     return distance;
   };
 
+  // const calculateSpeed = function () {
+  //   const DEFAULT_SPEED = 30;
+  //   const time = FETCH_TIME;
+  //   let speed = DEFAULT_SPEED;
+  //   let firstCall = true;
+  //   let prevCoords;
+  //   let currentCoords;
+
+  //   return () => {
+  //     prevCoords = currentCoords;
+  //     currentCoords = map.coordinates.puvCoords;
+
+  //     if (firstCall) {
+  //       firstCall = false;
+  //       currentCoords = map.coordinates.puvCoords;
+  //       return speed;
+  //     }
+  //     speed = getDistanceFromLatLonInMeters(prevCoords, currentCoords) / time;
+  //     return speed;
+  //   };
+  // };
+
+  // // PUV Speed
+  // let puvSpeed = calculateSpeed();
+
   /**
-   * Calculates the travel time in minutes between two geographic points for a public utility vehicle (PUV) traveling at a fixed speed of 30 km/h.
+   * Calculates the travel time in minutes between two geographic points for a public utility vehicle (PUV) traveling.
    *
    * @param {Object} userCoords - The coordinates of the user's current location.
    * @param {number} userCoords.lat1 - The latitude of the user's current location in decimal degrees.
@@ -50,7 +76,8 @@ function MapLabel({ address, map }) {
       map.coordinates.puvCoords
     );
 
-    const speedInMetersPerSecond = 30 / 3.6; // Convert km/h to m/s
+    const DEFAULT_SPEED = 20; // 20 km/h
+    const speedInMetersPerSecond = DEFAULT_SPEED / 3.6; // Convert km/h to m/s
     const travelTimeInSeconds = distanceInMeters / speedInMetersPerSecond;
     const travelTimeInMinutes = travelTimeInSeconds / 60;
     setEstimatedTime(travelTimeInMinutes.toFixed(0));
