@@ -1,3 +1,4 @@
+import { FcGoogle } from 'react-icons/fc';
 import { useState } from 'react';
 import InputForm from '../InputForm.jsx';
 import { useNavigate } from 'react-router';
@@ -107,9 +108,7 @@ function SigninForm() {
         onClick={onGoogleClick}
         className='btn-sec flex w-full items-center justify-center gap-2'
       >
-        <svg className='icon fill-white'>
-          <use xlinkHref={`../../assets/icons.svg#google`}></use>
-        </svg>
+        <FcGoogle className='icon' />
         <p>sign in with google</p>
       </button>
     </>

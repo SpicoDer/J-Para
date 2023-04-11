@@ -1,3 +1,4 @@
+import { HiArrowLeft } from 'react-icons/hi';
 import { useNavigate } from 'react-router';
 
 function ProfileHeading() {
@@ -5,12 +6,10 @@ function ProfileHeading() {
 
   return (
     <div className='flex items-center gap-8 bg-gray-100 p-4'>
-      <svg
-        className='stroke-w-2 h-4 w-4 cursor-pointer stroke-black'
+      <HiArrowLeft
+        className='icon cursor-pointer'
         onClick={() => navigate('/')}
-      >
-        <use xlinkHref='../../assets/icons.svg#back'></use>
-      </svg>
+      />
       <span className='cursor-default text-2xl font-medium text-prim-400'>
         PaRA
       </span>

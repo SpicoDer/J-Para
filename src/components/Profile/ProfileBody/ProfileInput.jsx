@@ -1,15 +1,10 @@
-function ProfileInput({ icon, type, value }) {
+function ProfileInput({ type, value }) {
   return (
-    <div className='flex items-center gap-4'>
-      <svg className='icon fill-prim-400'>
-        <use xlinkHref={`../../../assets/icons.svg#${icon}`}></use>
-      </svg>
-      <input
-        type={type}
-        className='w-full border-none px-4 py-2 focus:outline-prim-400 '
-        defaultValue={value}
-      />
-    </div>
+    <input
+      type={type}
+      className='w-full border-none px-4 py-2 focus:outline-prim-400 '
+      defaultValue={value}
+    />
   );
 }
 

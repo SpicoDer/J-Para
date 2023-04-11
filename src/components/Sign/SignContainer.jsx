@@ -1,4 +1,4 @@
-import BingMap from '../Home/Map/BingMap.jsx';
+import jeep from '../../assets/Jeepney.webp';
 import SignLogo from './SignLogo.jsx';
 
 /**
@@ -27,7 +27,7 @@ function SignContainer(props) {
         </div>
         {/* BG Pic */}
         <img
-          src='../../assets/Jeepney.webp'
+          src={jeep}
           alt='Image of Jeepney'
           className='relative top-1/2 hidden -translate-y-1/2 lg:block'
         />
