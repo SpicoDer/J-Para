@@ -4,7 +4,7 @@ import ProfileHeading from '../components/Profile/ProfileHeading';
 
 function Profile() {
   return (
-    <div className='h-screen w-screen lg:flex'>
+    <div className='h-full lg:flex'>
       <div className='lg:w-[600px]'>
         <ProfileHeading />
         <ProfileBody />

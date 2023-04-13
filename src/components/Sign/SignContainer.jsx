@@ -11,7 +11,7 @@ import SignLogo from './SignLogo.jsx';
 
 function SignContainer(props) {
   return (
-    <div className='h-screen p-4'>
+    <div className='h-full p-4'>
       {/* Container */}
       <div className='grid h-full px-2 lg:grid-cols-2 lg:gap-8'>
         {/* Content */}

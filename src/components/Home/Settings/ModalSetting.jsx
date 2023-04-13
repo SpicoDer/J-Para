@@ -4,7 +4,7 @@ import ModalHead from './ModalHead';
 
 function ModalSetting({ state, toggle, switchState }) {
   return (
-    <div className={`${state && 'absolute inset-0 z-20 h-screen w-screen'}`}>
+    <div className={`${state && 'absolute inset-0 z-20 h-full'}`}>
       <div
         onClick={() => {
           toggle(!state);

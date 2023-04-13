@@ -11,7 +11,7 @@ function Home() {
   };
 
   return (
-    <div className='h-screen lg:flex'>
+    <div className='h-full lg:flex'>
       <div className={`${toggleOpen ? '' : 'hidden'} bg-txt-dark lg:block`}>
         <ModalSetting
           toggle={setToggleOpen}
