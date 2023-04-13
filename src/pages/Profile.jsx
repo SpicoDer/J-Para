@@ -1,3 +1,4 @@
+import jeep from '../assets/Jeepney.webp';
 import ProfileBody from '../components/Profile/ProfileBody/ProfileBody.jsx';
 import ProfileHeading from '../components/Profile/ProfileHeading';
 
@@ -8,7 +9,13 @@ function Profile() {
         <ProfileHeading />
         <ProfileBody />
       </div>
-      <div className='relative hidden h-full w-full bg-yellow-100 lg:block'></div>
+      <div className='relative hidden h-full w-full bg-gray-100 p-8 lg:block'>
+        <img
+          src={jeep}
+          alt='Image of Jeepney'
+          className='relative top-1/2 hidden -translate-y-1/2 lg:block'
+        />
+      </div>
     </div>
   );
 }
