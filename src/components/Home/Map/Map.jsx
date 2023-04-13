@@ -3,8 +3,9 @@ import ProfileIcon from '../../ProfileIcon.jsx';
 import MapBtns from './MapBtns.jsx';
 import BingMap from './BingMap.jsx';
 import MapNotif from './MapNotif.jsx';
+import { useRef, useState } from 'react';
 
-function Map({ toggle, state }) {
+function Map({ toggle, state, switchState }) {
   const map = {
     coordinates: {
       userCoords: '',
@@ -68,7 +69,15 @@ function Map({ toggle, state }) {
   };
 
   function triggerNotification() {
-    map.mapNotifSetTriggered(map.estimatedTime <= map.notifTime);
+    // Check the state of toggle button
+    let alertState;
+    switchState.setAlert(alert => {
+      alertState = alert;
+      return alert;
+    });
+
+    // Trigger notification if alert toggle is ON
+    map.mapNotifSetTriggered(alertState && map.estimatedTime <= map.notifTime);
   }
 
   return (

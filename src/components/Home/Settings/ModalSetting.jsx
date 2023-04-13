@@ -2,7 +2,7 @@ import ModalBody from './ModalBody';
 import ModalFooter from './ModalFooter';
 import ModalHead from './ModalHead';
 
-function ModalSetting({ state, toggle }) {
+function ModalSetting({ state, toggle, switchState }) {
   return (
     <div className={`${state && 'absolute inset-0 z-20 h-screen w-screen'}`}>
       <div
@@ -30,7 +30,7 @@ function ModalSetting({ state, toggle }) {
           <h1 className='flex-grow text-center text-2xl lg:text-3xl'>PaRA</h1>
         </div>
         <ModalHead />
-        <ModalBody />
+        <ModalBody switchState={switchState} />
         <ModalFooter />
       </div>
     </div>
