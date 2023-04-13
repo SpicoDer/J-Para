@@ -11,14 +11,14 @@ import SignLogo from './SignLogo.jsx';
 
 function SignContainer(props) {
   return (
-    <div className='h-screen'>
+    <div className='h-screen p-4'>
       {/* Container */}
-      <div className='grid h-full gap-4 p-2 pr-12 lg:grid-cols-2'>
+      <div className='grid h-full px-2 lg:grid-cols-2 lg:gap-8'>
         {/* Content */}
         <div>
           <div className='relative top-1/2 mx-auto max-w-md -translate-y-1/2'>
             {/* Head */}
-            <div className='p-12'>
+            <div className='p-12 pt-8'>
               <SignLogo />
             </div>
             {/* Body */}
