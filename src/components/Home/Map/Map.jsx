@@ -3,10 +3,11 @@ import ProfileIcon from '../../ProfileIcon.jsx';
 import MapBtns from './MapBtns.jsx';
 import BingMap from './BingMap.jsx';
 import MapNotif from './MapNotif.jsx';
-import { useRef, useState } from 'react';
+import { toast } from 'react-toastify';
+import { useRef } from 'react';
 
 function Map({ toggle, state, switchState }) {
-  const map = {
+  const mapRef = useRef({
     coordinates: {
       userCoords: '',
       puvCoords: '',
@@ -14,18 +15,21 @@ function Map({ toggle, state, switchState }) {
     notifTime: 5,
     estimatedTime: 10,
     triggerNotif: triggerNotification,
-  };
+  });
 
   /**
-
-* Asynchronously retrieves the user's current location using the browser's geolocation API.
-* @async
-* @function
-* @returns {Promise<{ latitude: number, longitude: number }>} A promise that resolves with an object containing the user's latitude and longitude.
-* @throws {Error} If an error occurs while retrieving the user's location.
-*/
+  
+  * Asynchronously retrieves the user's current location using the browser's geolocation API.
+  * @async
+  * @function
+  * @returns {Promise<{ latitude: number, longitude: number }>} A promise that resolves with an object containing the user's latitude and longitude.
+  * @throws {Error} If an error occurs while retrieving the user's location.
+  */
   const getUserPosition = function () {
     return new Promise((resolve, reject) => {
+      const error = new Error('You need to enable the location');
+      if (!navigator.geolocation) reject(error);
+
       navigator.geolocation.getCurrentPosition(
         position => {
           const { latitude, longitude } = position.coords;
@@ -37,18 +41,25 @@ function Map({ toggle, state, switchState }) {
   };
 
   const fetchUserCoordinates = async function () {
-    const { latitude, longitude } = await getUserPosition();
-    map.coordinates.userCoords = { latitude: latitude, longitude: longitude };
+    try {
+      const { latitude, longitude } = await getUserPosition();
+      mapRef.current.coordinates.userCoords = {
+        latitude: latitude,
+        longitude: longitude,
+      };
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   /**
-
-* Asynchronously fetches the coordinates of the public utility vehicle (PUV) from an API.
-* @async
-* @function
-* @returns {Promise<{ latitude: number, longitude: number }>} A promise that resolves with an object containing the PUV's latitude and longitude.
-* @throws {Error} If an HTTP error occurs or the API response cannot be parsed as JSON.
-*/
+    
+    * Asynchronously fetches the coordinates of the public utility vehicle (PUV) from an API.
+    * @async
+    * @function
+    * @returns {Promise<{ latitude: number, longitude: number }>} A promise that resolves with an object containing the PUV's latitude and longitude.
+    * @throws {Error} If an HTTP error occurs or the API response cannot be parsed as JSON.
+    */
   const fetchPuvCoordinates = async function () {
     try {
       const response = await fetch(
@@ -59,12 +70,12 @@ function Map({ toggle, state, switchState }) {
 
       const fetchCoords = await response.json();
       const { latitude, longitude } = fetchCoords.coordinates;
-      map.coordinates.puvCoords = {
+      mapRef.current.coordinates.puvCoords = {
         latitude: +latitude,
         longitude: +longitude,
       };
-    } catch (error) {
-      console.error(`Error: ${error.message}`);
+    } catch {
+      toast.error('Failed to fetch puv coordinates');
     }
   };
 
@@ -77,17 +88,19 @@ function Map({ toggle, state, switchState }) {
     });
 
     // Trigger notification if alert toggle is ON
-    map.mapNotifSetTriggered(alertState && map.estimatedTime <= map.notifTime);
+    mapRef.current.mapNotifSetTriggered(
+      alertState && mapRef.current.estimatedTime <= mapRef.current.notifTime
+    );
   }
 
   return (
     <>
       <BingMap
-        paraMap={map}
+        paraMap={mapRef.current}
         getUserCoords={fetchUserCoordinates}
         getPuvCoords={fetchPuvCoordinates}
       />
-      <MapNotif map={map} />
+      <MapNotif map={mapRef.current} />
       <div>
         <div
           onClick={() => {
@@ -98,9 +111,9 @@ function Map({ toggle, state, switchState }) {
           <ProfileIcon size='12' />
         </div>
         <div>
-          <MapLabel address='address' map={map} />
+          <MapLabel address='address' map={mapRef.current} />
         </div>
-        <MapBtns map={map} />
+        <MapBtns map={mapRef.current} />
       </div>
     </>
   );

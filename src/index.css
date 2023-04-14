@@ -6,16 +6,6 @@ body {
   @apply font-body;
 }
 
-@layer utilities {
-  .icon {
-    @apply h-6 w-6;
-  }
-
-  .stroke-w-2 {
-    stroke-width: 2px;
-  }
-}
-
 @layer components {
   .btn-prim {
     @apply mt-4 cursor-pointer bg-prim-400 py-3 text-center text-sm capitalize text-white transition hover:opacity-80;
@@ -23,5 +13,9 @@ body {
 
   .btn-sec {
     @apply mt-4 cursor-pointer bg-gray-100 py-3 text-center text-sm capitalize transition hover:opacity-80;
+  }
+
+  .btn-map {
+    @apply h-10 w-10 rounded-full border-2 border-prim-400 bg-white text-prim-400;
   }
 }
