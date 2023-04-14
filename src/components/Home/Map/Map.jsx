@@ -17,6 +17,15 @@ function Map({ toggle, state, switchState }) {
     triggerNotif: triggerNotification,
   });
 
+  const checkLocPermission = async function () {
+    try {
+      const result = await navigator.permissions.query({ name: 'geolocation' });
+      if (result.state === 'denied') throw new Error();
+    } catch (error) {
+      throw new Error();
+    }
+  };
+
   /**
   
   * Asynchronously retrieves the user's current location using the browser's geolocation API.
@@ -27,9 +36,6 @@ function Map({ toggle, state, switchState }) {
   */
   const getUserPosition = function () {
     return new Promise((resolve, reject) => {
-      const error = new Error('You need to enable the location');
-      if (!navigator.geolocation) reject(error);
-
       navigator.geolocation.getCurrentPosition(
         position => {
           const { latitude, longitude } = position.coords;
@@ -42,13 +48,14 @@ function Map({ toggle, state, switchState }) {
 
   const fetchUserCoordinates = async function () {
     try {
+      await checkLocPermission();
       const { latitude, longitude } = await getUserPosition();
       mapRef.current.coordinates.userCoords = {
         latitude: latitude,
         longitude: longitude,
       };
     } catch (error) {
-      toast.error(error);
+      throw new Error();
     }
   };
 
@@ -75,7 +82,7 @@ function Map({ toggle, state, switchState }) {
         longitude: +longitude,
       };
     } catch {
-      toast.error('Failed to fetch puv coordinates');
+      throw new Error();
     }
   };
 
