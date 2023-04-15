@@ -5,7 +5,7 @@ import { db } from '../../../firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 
-function ProfileForm() {
+function ProfileForm({ setName }) {
   const [change, setChange] = useState(false);
 
   const auth = getAuth();
@@ -30,7 +30,7 @@ function ProfileForm() {
     try {
       e.preventDefault();
       if (auth.currentUser.displayName === name) throw new Error();
-      console.log(formData);
+
       //update display name in firebase auth
       await updateProfile(auth.currentUser, {
         displayName: name,
@@ -43,6 +43,7 @@ function ProfileForm() {
       });
 
       toast.success('Profile details updated');
+      setName(name);
       setChange(false);
     } catch (error) {
       toast.error('Could not update the profile details');
