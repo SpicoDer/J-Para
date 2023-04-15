@@ -172,6 +172,9 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
               errorCallback: () => {
                 paraMap.setAddress('No address found');
               },
+              getContainer: function () {
+                return document.getElementById('map');
+              },
             };
 
             //Make the reverse geocode request.
