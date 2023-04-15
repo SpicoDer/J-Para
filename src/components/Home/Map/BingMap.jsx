@@ -168,6 +168,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
               location: puvPin.getLocation(),
               callback: address => {
                 paraMap.setAddress(address.name);
+                console.log(address);
               },
               errorCallback: () => {
                 paraMap.setAddress('No address found');
@@ -189,7 +190,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
 
             paraMap.updateEstimatedTime(); // Update the estimated arrival time
 
-            // reverseGeocode(); // Get the address of puv
+            reverseGeocode(); // Get the address of puv
 
             // if estimated arrival time is equal or less than the user alert time
             paraMap.triggerNotif();
