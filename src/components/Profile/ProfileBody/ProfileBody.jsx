@@ -6,7 +6,7 @@ function ProfileBody() {
     <>
       <ProfileName />
       <div className='mb-4 cursor-default px-4 text-lg font-medium'>
-        Contact
+        Profile Information
       </div>
       <ProfileForm />
     </>

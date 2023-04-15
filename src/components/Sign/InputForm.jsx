@@ -15,6 +15,7 @@ function FormInput({ label, name, type, value, handler }) {
         {`${label}`}
       </label>
       <input
+        autoComplete='off'
         type={type}
         name={name}
         className='border border-txt-light px-4 py-2 focus:outline-prim-400 '

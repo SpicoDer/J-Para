@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { FETCH_TIME } from '../../../config';
 import { toast } from 'react-toastify';
-import { ImSpinner2 } from 'react-icons/im';
 import paraIcon from '../../../assets/para-icon.svg';
 import userIcon from '../../../assets/icon-user.svg';
+import Spinner from '../../Spinner';
 
 /**
 
@@ -209,10 +209,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
 
   return (
     <div className='grid h-full w-full place-items-center bg-white' id='map'>
-      <div className='space-y-4'>
-        <ImSpinner2 className='mx-auto h-20 w-20 animate-spin text-prim-400' />
-        <p className='text-lg text-txt-light'>Loading map...</p>
-      </div>
+      <Spinner />
     </div>
   );
 }

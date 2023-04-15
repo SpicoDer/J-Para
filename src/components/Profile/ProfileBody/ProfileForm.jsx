@@ -1,22 +1,86 @@
-import { HiOutlinePhone } from 'react-icons/hi';
-import { HiOutlineMail } from 'react-icons/hi';
-
 import ProfileInput from './ProfileInput';
+import { useState } from 'react';
+import { getAuth, updateProfile } from 'firebase/auth';
+import { db } from '../../../firebase';
+import { doc, updateDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 
 function ProfileForm() {
+  const [change, setChange] = useState(false);
+
+  const auth = getAuth();
+
+  const [formData, setFormData] = useState({
+    name: auth.currentUser.displayName,
+    email: auth.currentUser.email,
+  });
+
+  const { name, email } = formData;
+
+  const onChange = function (e) {
+    setFormData(prevState => ({
+      ...prevState,
+      [e.target.id]: e.target.value,
+    }));
+
+    setChange(true);
+  };
+
+  const submitHandler = async function (e) {
+    try {
+      e.preventDefault();
+      if (auth.currentUser.displayName === name) throw new Error();
+      console.log(formData);
+      //update display name in firebase auth
+      await updateProfile(auth.currentUser, {
+        displayName: name,
+      });
+
+      // update name in the firestore
+      const docRef = doc(db, 'users', auth.currentUser.uid);
+      await updateDoc(docRef, {
+        name,
+      });
+
+      toast.success('Profile details updated');
+      setChange(false);
+    } catch (error) {
+      toast.error('Could not update the profile details');
+      setChange(false);
+    }
+  };
+
   return (
     <>
-      <form id='save' className='mb-8 space-y-2 pl-4 pr-8'>
-        <div className='flex items-center gap-4'>
-          <HiOutlineMail className='icon text-prim-400' />
-          <ProfileInput type='text' value='09458160166' />
-        </div>
-        <div className='flex items-center gap-4'>
-          <HiOutlinePhone className='icon text-prim-400' />
-          <ProfileInput icon='email' type='email' value='example@gmail.com' />
-        </div>
+      <form
+        id='save'
+        onSubmit={submitHandler}
+        className='mb-8 space-y-2 pl-4 pr-8'
+      >
+        <ProfileInput
+          id='name'
+          name='Name:'
+          onChange={onChange}
+          type='text'
+          value={name}
+        />
+        <ProfileInput
+          id='email'
+          name='Email:'
+          onChange={onChange}
+          type='email'
+          value={email}
+        />
+
+        <ProfileInput
+          id='password'
+          name='Password:'
+          onChange={onChange}
+          type='password'
+          placeholder='Change your password'
+        />
       </form>
-      <div className='grid place-items-center'>
+      <div className={`${change ? 'grid' : 'hidden'} place-items-center`}>
         <button form='save' className='btn-prim place rounded-lg p-2 px-6'>
           save
         </button>
