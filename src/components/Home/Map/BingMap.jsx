@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { FETCH_TIME } from '../../../config';
 import { toast } from 'react-toastify';
 import { ImSpinner2 } from 'react-icons/im';
+import paraIcon from '../../../assets/para-icon.svg';
+import userIcon from '../../../assets/icon-user.svg';
 
 /**
 
@@ -81,12 +83,10 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
 
           const addUserPinOnMap = function (coords) {
             const pinOptions = {
-              icon: 'https://www.bingmapsportal.com/Content/images/poi_custom.png',
-              anchor: new Microsoft.Maps.Point(12, 39),
-              text: 'JC',
-              title: 'User',
+              icon: userIcon,
+              anchor: new Microsoft.Maps.Point(24, 48),
+              title: 'USER',
               textOffset: new Microsoft.Maps.Point(0, 5),
-              draggable: true,
             };
 
             userPin = createPinInstance(coords, pinOptions);
@@ -97,9 +97,8 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
 
           const addPuvPinOnMap = function (coords) {
             const pinOptions = {
-              icon: 'https://www.bingmapsportal.com/Content/images/poi_custom.png',
-              anchor: new Microsoft.Maps.Point(12, 39),
-              text: 'PaRA',
+              icon: paraIcon,
+              anchor: new Microsoft.Maps.Point(24, 48),
               title: 'PUV',
               textOffset: new Microsoft.Maps.Point(0, 5),
             };
@@ -190,7 +189,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
 
             paraMap.updateEstimatedTime(); // Update the estimated arrival time
 
-            reverseGeocode(); // Get the address of puv
+            // reverseGeocode(); // Get the address of puv
 
             // if estimated arrival time is equal or less than the user alert time
             paraMap.triggerNotif();
