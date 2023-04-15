@@ -71,14 +71,6 @@ function ProfileForm() {
           type='email'
           value={email}
         />
-
-        <ProfileInput
-          id='password'
-          name='Password:'
-          onChange={onChange}
-          type='password'
-          placeholder='Change your password'
-        />
       </form>
       <div className={`${change ? 'grid' : 'hidden'} place-items-center`}>
         <button form='save' className='btn-prim place rounded-lg p-2 px-6'>
