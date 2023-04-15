@@ -71,6 +71,7 @@ function ProfileForm({ setName }) {
           onChange={onChange}
           type='email'
           value={email}
+          readOnly={true}
         />
       </form>
       <div className={`${change ? 'grid' : 'hidden'} place-items-center`}>

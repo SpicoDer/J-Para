@@ -1,19 +1,23 @@
 import { useNavigate } from 'react-router';
+import ProfileIcon from '../../ProfileIcon';
+import { getAuth } from 'firebase/auth';
 
 function ModalHead() {
   const navigate = useNavigate();
+  const auth = getAuth();
+
+  const name = auth.currentUser.displayName;
+  const email = auth.currentUser.email;
 
   return (
     <div className='px-4'>
       <div className='flex gap-4'>
-        <div className='grid h-12 w-12 place-items-center rounded-full bg-prim-400'>
-          <p>JC</p>
-        </div>
+        <ProfileIcon size='12' />
         <div className='flex-grow'>
           <h2 className='font-medium capitalize sm:text-base md:text-xl'>
-            john carlo sarmiento
+            {name}
           </h2>
-          <p className='text-sm text-gray-400'>example@gmail.com</p>
+          <p className='text-sm text-gray-400'>{email}</p>
           <button
             onClick={() => {
               navigate('/profile');

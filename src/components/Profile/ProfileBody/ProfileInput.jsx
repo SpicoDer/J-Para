@@ -1,4 +1,12 @@
-function ProfileInput({ name, id, type, value, onChange, placeholder }) {
+function ProfileInput({
+  name,
+  id,
+  type,
+  value,
+  onChange,
+  placeholder,
+  readOnly,
+}) {
   return (
     <div className='grid grid-flow-col-dense items-center'>
       <span className='w-1'>{name}</span>
@@ -10,6 +18,7 @@ function ProfileInput({ name, id, type, value, onChange, placeholder }) {
         className='w-full border-none px-4 py-2 focus:outline-prim-400 '
         defaultValue={value}
         placeholder={placeholder}
+        readOnly={readOnly}
       />
     </div>
   );
