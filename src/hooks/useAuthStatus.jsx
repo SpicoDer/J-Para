@@ -12,10 +12,8 @@ export function useAuthStatus() {
 
   useEffect(() => {
     const auth = getAuth();
-    console.log(auth);
 
     onAuthStateChanged(auth, user => {
-      console.log(user);
       user && setSignin(true); // Check if there's user
       setChecking(false); // Stop checking if if there's user
     });
