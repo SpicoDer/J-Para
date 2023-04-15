@@ -168,7 +168,6 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
               location: puvPin.getLocation(),
               callback: address => {
                 paraMap.setAddress(address.name);
-                console.log(address);
               },
               errorCallback: () => {
                 paraMap.setAddress('No address found');

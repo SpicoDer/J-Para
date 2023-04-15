@@ -6,17 +6,22 @@ import SignIn from './pages/SignIn.jsx';
 import SignUp from './pages/SignUp.jsx';
 import Profile from './pages/Profile.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
+import PrivateRoute from './components/PrivateRoute.jsx';
 
 export default function App() {
   return (
     <>
       <Router>
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={<PrivateRoute />}>
+            <Route path='/' element={<Home />} />
+          </Route>
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
-          <Route path='/profile' element={<Profile />} />
+          <Route path='/profile' element={<PrivateRoute />}>
+            <Route path='/profile' element={<Profile />} />
+          </Route>
         </Routes>
       </Router>
       <ToastContainer
