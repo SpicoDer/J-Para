@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { FETCH_TIME } from '../../../config';
 
-function MapLabel({ address, map }) {
+function MapLabel({ map }) {
   const [estimatedTime, setEstimatedTime] = useState(10);
+  const [address, setAddress] = useState('Address');
   map.estimatedTime = +estimatedTime; // update estimated time in map object
+  map.setAddress = setAddress;
 
   /**
    * Calculates the distance between two geographic points in meters.
@@ -96,8 +98,8 @@ function MapLabel({ address, map }) {
   };
   return (
     <div className='absolute bottom-2 left-4 right-4 z-10 rounded-lg bg-prim-400 p-2 py-4 text-sm text-white md:text-base lg:text-lg'>
-      <p className='ml-4'>{address}</p>
-      <p className='ml-4'>Estimated time: {estimatedTime} mins</p>
+      <p className='ml-4'>Estimated arrival: {estimatedTime} mins</p>
+      <p className='ml-4'>PUV location: {address}</p>
     </div>
   );
 }

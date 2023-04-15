@@ -3,7 +3,6 @@ import ProfileIcon from '../../ProfileIcon.jsx';
 import MapBtns from './MapBtns.jsx';
 import BingMap from './BingMap.jsx';
 import MapNotif from './MapNotif.jsx';
-import { toast } from 'react-toastify';
 import { useRef } from 'react';
 
 function Map({ toggle, state, switchState }) {
@@ -118,7 +117,7 @@ function Map({ toggle, state, switchState }) {
           <ProfileIcon size='12' />
         </div>
         <div>
-          <MapLabel address='address' map={mapRef.current} />
+          <MapLabel map={mapRef.current} />
         </div>
         <MapBtns map={mapRef.current} />
       </div>

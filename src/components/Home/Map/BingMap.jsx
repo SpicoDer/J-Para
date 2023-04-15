@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { FETCH_TIME } from '../../../config';
 import { toast } from 'react-toastify';
+import { ImSpinner2 } from 'react-icons/im';
 
 /**
 
@@ -150,14 +151,47 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
             }
           };
 
+          // NOTE: Reverse geocoding
+
+          let searchManager;
+
+          const reverseGeocode = function () {
+            //If search manager is not defined, load the search module.
+            if (!searchManager) {
+              //Create an instance of the search manager and call the reverseGeocode function again.
+              Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
+                searchManager = new Microsoft.Maps.Search.SearchManager(map);
+                reverseGeocode();
+              });
+            }
+
+            const searchRequest = {
+              location: puvPin.getLocation(),
+              callback: address => {
+                paraMap.setAddress(address.name);
+              },
+              errorCallback: () => {
+                paraMap.setAddress('No address found');
+              },
+            };
+
+            //Make the reverse geocode request.
+            searchManager.reverseGeocode(searchRequest);
+          };
+
           // NOTE: Update puv information every x secs
           const intervalTime = FETCH_TIME * 1000; // Convert secs to ms
 
           setInterval(async () => {
             await getPuvCoords(); // fetch new coordinates of puv
+
             // re-render the position of pin on map
             addPuvPinOnMap(paraMap.coordinates.puvCoords);
+
             paraMap.updateEstimatedTime(); // Update the estimated arrival time
+
+            reverseGeocode(); // Get the address of puv
+
             // if estimated arrival time is equal or less than the user alert time
             paraMap.triggerNotif();
           }, intervalTime);
@@ -174,7 +208,14 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
     };
   }, []);
 
-  return <div className='h-full w-full bg-yellow-200' id='map'></div>;
+  return (
+    <div className='grid h-full w-full place-items-center bg-white' id='map'>
+      <div className='space-y-4'>
+        <ImSpinner2 className='mx-auto h-20 w-20 animate-spin text-prim-400' />
+        <p className='text-lg text-txt-light'>Loading map...</p>
+      </div>
+    </div>
+  );
 }
 
 export default BingMap;
