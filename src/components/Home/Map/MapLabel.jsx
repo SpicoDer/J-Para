@@ -105,8 +105,8 @@ function MapLabel({ map }) {
 
   return (
     <div className='absolute bottom-2 left-4 right-4 z-10 rounded-lg bg-prim-400 p-2 py-4 text-sm text-white md:text-base lg:text-lg'>
+      <p className='ml-4'>Location: {getFirstAddress(address)}</p>
       <p className='ml-4'>Estimated arrival: {estimatedTime} mins</p>
-      <p className='ml-4'>PUV location: {getFirstAddress(address)}</p>
     </div>
   );
 }

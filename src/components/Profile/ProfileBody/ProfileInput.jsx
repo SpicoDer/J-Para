@@ -8,8 +8,8 @@ function ProfileInput({
   readOnly,
 }) {
   return (
-    <div className='grid grid-flow-col-dense items-center'>
-      <span className='w-1'>{name}</span>
+    <div className='flex items-center gap-2'>
+      <span className='w-16'>{name}</span>
       <input
         autoComplete='off'
         id={id}

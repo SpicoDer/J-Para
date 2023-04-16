@@ -12,7 +12,7 @@ function Map({ toggle, state, switchState }) {
       puvCoords: '',
     },
     notifTime: 5,
-    estimatedTime: 10,
+    estimatedTime: 0,
     triggerNotif: triggerNotification,
   });
 
@@ -114,7 +114,7 @@ function Map({ toggle, state, switchState }) {
           }}
           className=' absolute left-0 top-0 z-10 m-4 lg:hidden'
         >
-          <ProfileIcon size='12' pad='p-4' />
+          <ProfileIcon />
         </div>
         <div>
           <MapLabel map={mapRef.current} />

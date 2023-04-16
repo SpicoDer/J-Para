@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router';
 import InputForm from '../InputForm.jsx';
 import { useState } from 'react';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
+import { BsArrowLeft } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 
 /**
@@ -54,7 +55,7 @@ function ForgotPassForm() {
         onClick={() => navigate('/sign-in')}
         className='btn-sec flex w-full items-center justify-center gap-2'
       >
-        <span className='text-[1.5rem]'>&#8592;</span>
+        <BsArrowLeft className='h-4 w-4' />
         <p>back to sign in</p>
       </button>
     </>

@@ -1,6 +1,7 @@
 import { getAuth } from 'firebase/auth';
+import { identiconSvg } from 'https://cdn.jsdelivr.net/npm/minidenticons@3.1.2/minidenticons.min.js';
 
-function ProfileIcon({ size, textSize, pad }) {
+function ProfileIcon() {
   const auth = getAuth();
   const name = auth.currentUser.displayName;
 
@@ -10,11 +11,9 @@ function ProfileIcon({ size, textSize, pad }) {
   }
 
   return (
-    <span
-      className={`grid border border-black h-${size} ${pad} w-${size} place-items-center rounded-full ${textSize} cursor-pointer bg-prim-400 text-white`}
-    >
-      {getNameInitial(name)}
-    </span>
+    <div className='h-12 w-12 cursor-pointer rounded-full border border-prim-400 bg-txt-dark'>
+      <identicon-svg username={getNameInitial(name)} />
+    </div>
   );
 }
 

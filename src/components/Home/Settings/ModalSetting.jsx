@@ -21,7 +21,7 @@ function ModalSetting({ state, toggle, switchState }) {
       >
         <div className='flex items-center justify-center px-4 pt-4 lg:mx-32 lg:py-4 '>
           <IoClose
-            className='h-8 w-8 text-white lg:hidden'
+            className='h-8 w-8 cursor-pointer text-white lg:hidden'
             onClick={() => {
               toggle(!state);
             }}
