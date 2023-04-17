@@ -76,14 +76,10 @@ function SignupForm() {
 
       // redirect to home
       navigate('/');
+      window.location.reload();
     } catch (error) {
       toast.error('Something went wrong with the registration');
     }
-
-    setName('');
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
   };
   return (
     <>
