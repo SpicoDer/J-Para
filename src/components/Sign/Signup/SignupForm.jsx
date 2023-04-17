@@ -3,12 +3,12 @@ import InputForm from '../InputForm.jsx';
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  sendEmailVerification,
   updateProfile,
 } from 'firebase/auth';
 import { db } from '../../../firebase.js';
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router';
 /**
  * A React component that renders a form for user signup.
  *
@@ -36,8 +36,6 @@ function SignupForm() {
   const confirmPasswordHandler = function (e) {
     setConfirmPassword(e.target.value);
   };
-
-  const navigate = useNavigate();
 
   const submitHandler = async function (e) {
     e.preventDefault();
@@ -74,10 +72,18 @@ function SignupForm() {
       // Upload signup form data to document in users collection with unique id
       await setDoc(doc(db, 'users', user.uid), signupFormData);
 
-      // redirect to home
-      navigate('/');
-      window.location.reload();
+      sendEmailVerification(auth.currentUser);
+      toast.success('Email verification sent!');
+
+      setName('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
     } catch (error) {
+      setName('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
       toast.error('Something went wrong with the registration');
     }
   };

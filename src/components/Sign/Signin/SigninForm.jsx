@@ -41,7 +41,9 @@ function SigninForm() {
         password
       );
 
-      if (userCredential.user) navigate('/');
+      if (!(userCredential.user && userCredential.user.emailVerified))
+        throw new Error();
+      navigate('/');
     } catch (error) {
       toast.error('Sorry we could not find your account');
     }
