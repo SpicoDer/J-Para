@@ -1,12 +1,4 @@
-function ProfileInput({
-  name,
-  id,
-  type,
-  value,
-  onChange,
-  placeholder,
-  readOnly,
-}) {
+function ProfileInput({ name, id, type, value, onChange, placeholder }) {
   return (
     <div className='flex items-center gap-2'>
       <span className='w-16'>{name}</span>
@@ -18,7 +10,6 @@ function ProfileInput({
         className='w-full border-none px-4 py-2 focus:outline-prim-400 '
         defaultValue={value}
         placeholder={placeholder}
-        readOnly={readOnly}
       />
     </div>
   );

@@ -1,6 +1,6 @@
 import ProfileInput from './ProfileInput';
 import { useState } from 'react';
-import { getAuth, updateProfile } from 'firebase/auth';
+import { getAuth, updateEmail, updateProfile } from 'firebase/auth';
 import { db } from '../../../firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
@@ -29,17 +29,20 @@ function ProfileForm({ setName }) {
   const submitHandler = async function (e) {
     try {
       e.preventDefault();
-      if (auth.currentUser.displayName === name) throw new Error();
 
       //update display name in firebase auth
       await updateProfile(auth.currentUser, {
         displayName: name,
       });
 
-      // update name in the firestore
+      // update email
+      await updateEmail(auth.currentUser, email);
+
+      // update name and email in the firestore
       const docRef = doc(db, 'users', auth.currentUser.uid);
       await updateDoc(docRef, {
         name,
+        email,
       });
 
       toast.success('Profile details updated');
@@ -71,7 +74,6 @@ function ProfileForm({ setName }) {
           onChange={onChange}
           type='email'
           value={email}
-          readOnly={true}
         />
       </form>
       <div className={`${change ? 'grid' : 'hidden'} place-items-center`}>
