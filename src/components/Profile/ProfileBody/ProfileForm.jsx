@@ -1,5 +1,5 @@
 import ProfileInput from './ProfileInput';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   getAuth,
   updateEmail,
@@ -24,38 +24,33 @@ function ProfileForm({ setName }) {
   const [changePass, setChangePass] = useState(false);
 
   // state of form data
-  const [formData, setFormData] = useState({
-    name: user.displayName,
-    email: user.email,
-    password: '',
-    confirmPassword: '',
-  });
-  const { name, email, password, confirmPassword } = formData;
+  const [displayName, setDisplayName] = useState(user.displayName);
+  const [email, setEmail] = useState(user.email);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const onChange = function (e) {
-    setFormData(prevState => ({
-      ...prevState,
-      [e.target.id]: e.target.value,
-    }));
-
+  const nameHandler = function (e) {
+    setDisplayName(e.target.value);
     setSave(true);
   };
 
-  // const updatePass = async function (password, confirmPassword) {
-  //   try {
-  //     if (password !== confirmPassword)
-  //       throw new Error('Password and Confirm Password fields do not match');
+  const emailHandler = function (e) {
+    setEmail(e.target.value);
+    setSave(true);
+  };
 
-  //     await updatePassword(user, password);
-  // // update data in firestore
-  // await updateDoc(docRef, { newName });
-  //   } catch (error) {
-  //     throw new Error(error);
-  //   }
-  // };
+  const newPassHandler = function (e) {
+    setNewPassword(e.target.value);
+    setSave(true);
+  };
 
+  const confirmPassHandler = function (e) {
+    setConfirmPassword(e.target.value);
+    setSave(true);
+  };
+
+  // Re-signin function
   const navigate = useNavigate();
-
   const reSignin = function () {
     toast.warn('You need to sign-in again to change your email.', {
       position: 'top-center',
@@ -72,17 +67,18 @@ function ProfileForm({ setName }) {
     navigate('/sign-in');
   };
 
-  const submitContact = async function (e) {
+  const contactHandler = async function (e) {
     try {
       e.preventDefault();
 
-      if (user.email === email && user.displayName === name) throw new Error();
+      if (user.email === email && user.displayName === displayName)
+        throw new Error();
 
-      await updateProfile(user, { displayName: name });
+      await updateProfile(user, { displayName: displayName });
       await updateEmail(user, email);
 
       toast.success('Profile details updated');
-      setName(name);
+      setName(displayName);
       setSave(false);
     } catch (error) {
       if (error.code === 'auth/requires-recent-login') reSignin();
@@ -93,26 +89,45 @@ function ProfileForm({ setName }) {
     }
   };
 
-  // const submitPassword = async function (e) {
-  //   try {
-  //     e.preventDefault();
-  //   } catch (error) {}
-  // };
+  const passwordHandler = async function (e) {
+    try {
+      e.preventDefault();
+
+      if (newPassword !== confirmPassword)
+        throw new Error('Password and Confirm Password fields do not match');
+
+      await updatePassword(user, newPassword);
+      toast.success('Password updated');
+      setNewPassword('');
+      setConfirmPassword('');
+      setSave(!save);
+      // // update data in firestore
+      // await updateDoc(docRef, { newName });
+    } catch (error) {
+      if (error.code === 'auth/requires-recent-login') reSignin();
+      else {
+        toast.error(error.message);
+        setNewPassword('');
+        setConfirmPassword('');
+      }
+    }
+  };
+
   return (
     <>
-      <form id='save' onSubmit={submitContact}>
+      <form id='save' onSubmit={changePass ? passwordHandler : contactHandler}>
         <div className={`${changePass && 'hidden'} mb-8 space-y-4 pl-4 pr-8`}>
           <ProfileInput
             id='name'
             name='Name:'
-            onChange={onChange}
+            onChange={nameHandler}
             type='text'
-            value={name}
+            value={displayName}
           />
           <ProfileInput
             id='email'
             name='Email:'
-            onChange={onChange}
+            onChange={emailHandler}
             type='email'
             value={email}
           />
@@ -132,15 +147,17 @@ function ProfileForm({ setName }) {
         >
           <ProfileInput
             id='password'
-            name='Password:'
-            onChange={onChange}
+            name='New password:'
             type='password'
+            onChange={newPassHandler}
+            value={newPassword}
           />
           <ProfileInput
             id='confirmPassword'
             name='Confirm password:'
-            onChange={onChange}
             type='password'
+            onChange={confirmPassHandler}
+            value={confirmPassword}
           />
           <p
             onClick={() => {

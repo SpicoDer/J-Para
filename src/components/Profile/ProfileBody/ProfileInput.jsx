@@ -8,7 +8,7 @@ function ProfileInput({ name, id, type, value, onChange, placeholder }) {
         onChange={onChange}
         type={type}
         className='w-full border-2 border-gray-200 px-4 py-2 focus:outline-prim-400 '
-        defaultValue={value}
+        value={value}
         placeholder={placeholder}
       />
     </div>
