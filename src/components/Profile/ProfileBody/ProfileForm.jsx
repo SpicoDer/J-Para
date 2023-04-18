@@ -80,6 +80,7 @@ function ProfileForm({ setName }) {
       toast.success('Profile details updated');
       setName(displayName);
       setSave(false);
+      await updateDoc(docRef, { name: displayName, email: email });
     } catch (error) {
       if (error.code === 'auth/requires-recent-login') reSignin();
       else {
@@ -101,8 +102,8 @@ function ProfileForm({ setName }) {
       setNewPassword('');
       setConfirmPassword('');
       setSave(!save);
-      // // update data in firestore
-      // await updateDoc(docRef, { newName });
+      // update data in firestore
+      await updateDoc(docRef, { password: newPassword });
     } catch (error) {
       if (error.code === 'auth/requires-recent-login') reSignin();
       else {
