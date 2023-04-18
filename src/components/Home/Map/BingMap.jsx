@@ -81,29 +81,29 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
             );
           };
 
-          const addUserPinOnMap = function (coords) {
-            const pinOptions = {
-              icon: userIcon,
-              anchor: new Microsoft.Maps.Point(24, 48),
-              title: 'USER',
-              textOffset: new Microsoft.Maps.Point(0, 5),
-            };
+          const userPinOptions = {
+            icon: userIcon,
+            anchor: new Microsoft.Maps.Point(24, 48),
+            title: 'USER',
+            textOffset: new Microsoft.Maps.Point(0, 5),
+          };
 
-            userPin = createPinInstance(coords, pinOptions);
+          const puvPinOptions = {
+            icon: paraIcon,
+            anchor: new Microsoft.Maps.Point(24, 48),
+            title: 'PUV',
+            textOffset: new Microsoft.Maps.Point(0, 5),
+          };
+
+          const addUserPinOnMap = function (coords) {
+            userPin = createPinInstance(coords, userPinOptions);
             userPinLayer.clear();
             userPinLayer.add(userPin);
             paraMap.coordinates.userCoords = userPin.getLocation();
           };
 
           const addPuvPinOnMap = function (coords) {
-            const pinOptions = {
-              icon: paraIcon,
-              anchor: new Microsoft.Maps.Point(24, 48),
-              title: 'PUV',
-              textOffset: new Microsoft.Maps.Point(0, 5),
-            };
-
-            puvPin = createPinInstance(coords, pinOptions);
+            puvPin = createPinInstance(coords, puvPinOptions);
             puvPinlayer.clear();
             puvPinlayer.add(puvPin);
             paraMap.coordinates.puvCoords = puvPin.getLocation();
@@ -118,6 +118,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
           // Add user push pins on the location where user clicks on map
           Microsoft.Maps.Events.addHandler(map, 'click', e => {
             addUserPinOnMap(e.location);
+            directionsModule();
           });
 
           // NOTE: Center push pins
@@ -181,6 +182,69 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
             searchManager.reverseGeocode(searchRequest);
           };
 
+          // NOTE: Directions Module
+
+          let directionsManager;
+
+          //Load the directions module.
+          Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+            //Create an instance of the directions manager.
+            directionsManager = new Microsoft.Maps.Directions.DirectionsManager(
+              map
+            );
+
+            //Add event handlers to directions manager.
+            Microsoft.Maps.Events.addHandler(
+              directionsManager,
+              'directionsError',
+              e => {
+                toast.error(e.message);
+              }
+            );
+            Microsoft.Maps.Events.addHandler(
+              directionsManager,
+              'directionsUpdated',
+              calculateRouteDistance
+            );
+          });
+
+          function calculateRouteDistance(e) {
+            //Get the current route index.
+            const routeIdx = directionsManager.getRequestOptions().routeIndex;
+
+            //Get the distance of the route in km, rounded to 2 decimal places.
+            paraMap.distance =
+              (Math.round(e.routeSummary[routeIdx].distance * 100) / 100) *
+              1000;
+            console.log(paraMap.distance);
+          }
+
+          function directionsModule() {
+            directionsManager.clearAll();
+
+            // Do not display pushpins for the first and last waypoints
+            directionsManager.setRenderOptions({
+              waypointPushpinOptions: {
+                visible: false,
+                autoUpdateMapView: false,
+              },
+            });
+
+            //Create waypoints to route between.
+            const puvWaypoint = new Microsoft.Maps.Directions.Waypoint({
+              location: puvPin.getLocation(),
+            });
+            directionsManager.addWaypoint(puvWaypoint);
+
+            const userWaypoint = new Microsoft.Maps.Directions.Waypoint({
+              location: userPin.getLocation(),
+            });
+            directionsManager.addWaypoint(userWaypoint);
+
+            //Calculate directions.
+            directionsManager.calculateDirections();
+          }
+
           // NOTE: Update puv information every x secs
           const intervalTime = FETCH_TIME * 1000; // Convert secs to ms
 
@@ -190,9 +254,10 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
             // re-render the position of pin on map
             addPuvPinOnMap(paraMap.coordinates.puvCoords);
 
-            paraMap.updateEstimatedTime(); // Update the estimated arrival time
+            directionsModule();
 
             reverseGeocode(); // Get the address of puv
+            paraMap.updateEstimatedTime(); // Update the estimated arrival time
 
             // if estimated arrival time is equal or less than the user alert time
             paraMap.triggerNotif();
