@@ -37,6 +37,13 @@ function SignupForm() {
     setConfirmPassword(e.target.value);
   };
 
+  const emptyFormField = function () {
+    setName('');
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+  };
+
   const submitHandler = async function (e) {
     e.preventDefault();
 
@@ -72,18 +79,11 @@ function SignupForm() {
       // Upload signup form data to document in users collection with unique id
       await setDoc(doc(db, 'users', user.uid), signupFormData);
 
+      emptyFormField();
       sendEmailVerification(auth.currentUser);
       toast.success('Email verification sent!');
-
-      setName('');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
     } catch (error) {
-      setName('');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
+      emptyFormField();
       toast.error('Something went wrong with the registration');
     }
   };
