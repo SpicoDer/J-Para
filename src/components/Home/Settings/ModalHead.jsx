@@ -1,13 +1,33 @@
 import { useNavigate } from 'react-router';
 import ProfileIcon from '../../ProfileIcon';
 import { getAuth } from 'firebase/auth';
+import { useEffect, useState } from 'react';
 
 function ModalHead() {
+  const [isGoogle, setIsGoogle] = useState(false);
+
   const navigate = useNavigate();
   const auth = getAuth();
 
   const name = auth.currentUser.displayName;
   const email = auth.currentUser.email;
+  const providerData = auth.currentUser.providerData;
+
+  const goToExternalLink = function (url) {
+    window.location.href = url;
+  };
+
+  const manageProfile = function () {
+    isGoogle
+      ? goToExternalLink('https://myaccount.google.com/')
+      : navigate('/profile');
+  };
+
+  useEffect(() => {
+    providerData.forEach(profile => {
+      if (profile.providerId === 'google.com') setIsGoogle(true);
+    });
+  }, []);
 
   return (
     <div className='mx-auto px-8 '>
@@ -21,9 +41,7 @@ function ModalHead() {
         </div>
       </div>
       <button
-        onClick={() => {
-          navigate('/profile');
-        }}
+        onClick={manageProfile}
         className='btn-prim rounded-full px-6 py-2 text-base'
       >
         manage account info
