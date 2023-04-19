@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
-import { FETCH_TIME } from '../../../config';
-import { toast } from 'react-toastify';
-import paraIcon from '../../../assets/para-icon.svg';
-import userIcon from '../../../assets/icon-user.svg';
-import Spinner from '../../Spinner';
+import { useEffect } from "react";
+import { FETCH_TIME } from "../../../config";
+import { toast } from "react-toastify";
+import paraIcon from "../../../assets/para-icon.svg";
+import userIcon from "../../../assets/icon-user.svg";
+import Spinner from "../../Spinner";
 
 /**
 
@@ -21,8 +21,8 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
    */
   useEffect(() => {
     // Load the Bing Maps API script
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
+    const script = document.createElement("script");
+    script.type = "text/javascript";
     script.async = true;
     script.defer = true;
     script.src = `https://www.bing.com/api/maps/mapcontrol?callback=initMap`;
@@ -36,9 +36,9 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
 
         // NOTE: Initialize the map once the script has loaded
         window.initMap = () => {
-          const map = new Microsoft.Maps.Map(document.getElementById('map'), {
+          const map = new Microsoft.Maps.Map(document.getElementById("map"), {
             credentials:
-              'AiPKZ0UNBJO5u_ZL2cGw2YDZLiZYiZIiOfI_wBzlfGG1RFcvl63BsHndlXFihfGO',
+              "AiPKZ0UNBJO5u_ZL2cGw2YDZLiZYiZIiOfI_wBzlfGG1RFcvl63BsHndlXFihfGO",
             center: new Microsoft.Maps.Location(
               paraMap.coordinates.userCoords.latitude,
               paraMap.coordinates.userCoords.longitude
@@ -48,16 +48,16 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
             mapTypeId: Microsoft.Maps.MapTypeId.road,
             customMapStyle: {
               elements: {
-                area: { fillColor: '#b6e591' },
-                water: { fillColor: '#75cff0' },
-                tollRoad: { fillColor: '#a964f4', strokeColor: '#a964f4' },
-                arterialRoad: { fillColor: '#ffffff', strokeColor: '#d7dae7' },
-                road: { fillColor: '#ffa35a', strokeColor: '#ff9c4f' },
-                street: { fillColor: '#ffffff', strokeColor: '#ffffff' },
-                transit: { fillColor: '#000000' },
+                area: { fillColor: "#b6e591" },
+                water: { fillColor: "#75cff0" },
+                tollRoad: { fillColor: "#a964f4", strokeColor: "#a964f4" },
+                arterialRoad: { fillColor: "#ffffff", strokeColor: "#d7dae7" },
+                road: { fillColor: "#ffa35a", strokeColor: "#ff9c4f" },
+                street: { fillColor: "#ffffff", strokeColor: "#ffffff" },
+                transit: { fillColor: "#000000" },
               },
               settings: {
-                landColor: '#efe9e1',
+                landColor: "#efe9e1",
               },
             },
           });
@@ -84,14 +84,14 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
           const userPinOptions = {
             icon: userIcon,
             anchor: new Microsoft.Maps.Point(24, 48),
-            title: 'USER',
+            title: "USER",
             textOffset: new Microsoft.Maps.Point(0, 5),
           };
 
           const puvPinOptions = {
             icon: paraIcon,
             anchor: new Microsoft.Maps.Point(24, 48),
-            title: 'PUV',
+            title: "PUV",
             textOffset: new Microsoft.Maps.Point(0, 5),
           };
 
@@ -116,7 +116,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
           addPuvPinOnMap(paraMap.coordinates.puvCoords);
 
           // Add user push pins on the location where user clicks on map
-          Microsoft.Maps.Events.addHandler(map, 'click', e => {
+          Microsoft.Maps.Events.addHandler(map, "click", (e) => {
             addUserPinOnMap(e.location);
             directionsModule();
             paraMap.updateEstimatedTime(); // Update the estimated arrival time
@@ -140,7 +140,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
             try {
               map.setView({ center: userPin.getLocation(), zoom: 16 });
             } catch {
-              toast.error('No location found');
+              toast.error("No location found");
             }
           };
 
@@ -148,7 +148,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
             try {
               map.setView({ center: puvPin.getLocation(), zoom: 16 });
             } catch {
-              toast.error('Waiting for location');
+              toast.error("Waiting for location");
             }
           };
 
@@ -160,7 +160,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
             //If search manager is not defined, load the search module.
             if (!searchManager) {
               //Create an instance of the search manager and call the reverseGeocode function again.
-              Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
+              Microsoft.Maps.loadModule("Microsoft.Maps.Search", function () {
                 searchManager = new Microsoft.Maps.Search.SearchManager(map);
                 reverseGeocode();
               });
@@ -168,14 +168,14 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
 
             const searchRequest = {
               location: puvPin.getLocation(),
-              callback: address => {
+              callback: (address) => {
                 paraMap.setAddress(address.name);
               },
               errorCallback: () => {
-                paraMap.setAddress('No address found');
+                paraMap.setAddress("No address found");
               },
               getContainer: function () {
-                return document.getElementById('map');
+                return document.getElementById("map");
               },
             };
 
@@ -188,7 +188,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
           let directionsManager;
 
           //Load the directions module.
-          Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+          Microsoft.Maps.loadModule("Microsoft.Maps.Directions", function () {
             //Create an instance of the directions manager.
             directionsManager = new Microsoft.Maps.Directions.DirectionsManager(
               map
@@ -197,14 +197,14 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
             //Add event handlers to directions manager.
             Microsoft.Maps.Events.addHandler(
               directionsManager,
-              'directionsError',
-              e => {
+              "directionsError",
+              (e) => {
                 toast.error(e.message);
               }
             );
             Microsoft.Maps.Events.addHandler(
               directionsManager,
-              'directionsUpdated',
+              "directionsUpdated",
               calculateRouteDistance
             );
           });
@@ -248,7 +248,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
           // NOTE: Update puv information every x secs
           const intervalTime = FETCH_TIME * 1000; // Convert secs to ms
 
-          setTimeout(() => {
+          setTimeout(async () => {
             directionsModule();
             reverseGeocode(); // Get the address of puv
             paraMap.updateEstimatedTime(); // Update the estimated arrival time
@@ -270,7 +270,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
           }, intervalTime);
         };
       } catch (error) {
-        toast.error('There is an error getting the location');
+        toast.error("There is an error getting the location");
       }
     })();
 
@@ -282,7 +282,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
   }, []);
 
   return (
-    <div className='grid h-full w-full place-items-center bg-white' id='map'>
+    <div className="grid h-full w-full place-items-center bg-white" id="map">
       <Spinner />
     </div>
   );
