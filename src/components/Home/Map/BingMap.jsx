@@ -119,6 +119,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
           Microsoft.Maps.Events.addHandler(map, 'click', e => {
             addUserPinOnMap(e.location);
             directionsModule();
+            paraMap.updateEstimatedTime(); // Update the estimated arrival time
           });
 
           // NOTE: Center push pins
@@ -216,7 +217,6 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
             paraMap.distance =
               (Math.round(e.routeSummary[routeIdx].distance * 100) / 100) *
               1000;
-            console.log(paraMap.distance);
           }
 
           function directionsModule() {
@@ -247,6 +247,12 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
 
           // NOTE: Update puv information every x secs
           const intervalTime = FETCH_TIME * 1000; // Convert secs to ms
+
+          setTimeout(() => {
+            directionsModule();
+            reverseGeocode(); // Get the address of puv
+            paraMap.updateEstimatedTime(); // Update the estimated arrival time
+          }, 5000);
 
           setInterval(async () => {
             await getPuvCoords(); // fetch new coordinates of puv

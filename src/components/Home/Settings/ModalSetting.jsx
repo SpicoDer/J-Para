@@ -16,7 +16,7 @@ function ModalSetting({ state, toggle, switchState }) {
       <div
         className={`${
           state &&
-          ' relative left-1/2 bottom-1/2 z-30 w-9/12 max-w-md -translate-y-1/2 -translate-x-1/2 rounded-lg'
+          ' relative left-1/2 bottom-1/2 z-30 max-w-[320px] -translate-y-1/2 -translate-x-1/2 rounded-lg'
         }  space-y-6 bg-txt-dark text-white`}
       >
         <div className='flex items-center justify-center px-4 pt-4 lg:mx-32 lg:py-4 '>

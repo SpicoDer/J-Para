@@ -30,22 +30,26 @@ function ModalHead() {
   }, []);
 
   return (
-    <div className='mx-auto px-8 '>
+    <div className='mx-auto px-8'>
       <div className='flex items-center justify-center gap-4'>
-        <ProfileIcon />
-        <div className='flex-grow'>
+        <div className='min-w-max'>
+          <ProfileIcon />
+        </div>
+        <div>
           <h2 className='font-medium capitalize sm:text-base md:text-xl'>
             {name}
           </h2>
-          <p className='text-sm text-gray-400'>{email}</p>
+          <p className='text-xs text-gray-400'>{email}</p>
         </div>
       </div>
-      <button
-        onClick={manageProfile}
-        className='btn-prim rounded-full px-6 py-2 text-base'
-      >
-        manage account info
-      </button>
+      <div className='grid place-items-center'>
+        <button
+          onClick={manageProfile}
+          className='btn-prim rounded-full px-6 py-2 text-xs md:text-sm'
+        >
+          manage account info
+        </button>
+      </div>
     </div>
   );
 }
