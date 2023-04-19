@@ -1,1 +1,1 @@
-export const FETCH_TIME = 60;
+export const FETCH_TIME = 30;
