@@ -5,8 +5,8 @@ import Map from '../components/Home/Map/Map';
 function Home() {
   const [toggleOpen, setToggleOpen] = useState(false);
 
-  // Use to handle the state of toggle btn and pass to map component
-  const switchState = {
+  // Use to handle the state of alert toggle btn
+  const alertState = {
     alert: true,
   };
 
@@ -16,14 +16,14 @@ function Home() {
         <ModalSetting
           toggle={setToggleOpen}
           state={toggleOpen}
-          switchState={switchState}
+          alertState={alertState}
         />
       </div>
       <div className='relative h-full w-full'>
         <Map
           toggle={setToggleOpen}
           state={toggleOpen}
-          switchState={switchState}
+          alertState={alertState}
         />
       </div>
     </div>

@@ -5,7 +5,7 @@ import BingMap from './BingMap.jsx';
 import MapNotif from './MapNotif.jsx';
 import { useRef } from 'react';
 
-function Map({ toggle, state, switchState }) {
+function Map({ toggle, state, alertState }) {
   const mapRef = useRef({
     coordinates: {
       userCoords: '',
@@ -106,7 +106,7 @@ function Map({ toggle, state, switchState }) {
   function triggerNotification() {
     // Check the state of toggle button
     let alertState;
-    switchState.setAlert(alert => {
+    alertState.setAlert(alert => {
       alertState = alert;
       return alert;
     });

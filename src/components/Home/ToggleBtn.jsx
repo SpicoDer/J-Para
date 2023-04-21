@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-function ToggleBtn({ id, label, switchState }) {
-  const [isChecked, setIsChecked] = useState(switchState.alert);
-  switchState.alert = isChecked;
-  switchState.setAlert = setIsChecked;
+function ToggleBtn({ id, label, alertState }) {
+  const [isChecked, setIsChecked] = useState(alertState.alert);
+  alertState.alert = isChecked;
+  alertState.setAlert = setIsChecked;
 
   return (
     <div className='my-4'>

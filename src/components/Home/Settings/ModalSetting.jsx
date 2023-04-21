@@ -3,7 +3,7 @@ import ModalFooter from './ModalFooter';
 import ModalHead from './ModalHead';
 import { IoClose } from 'react-icons/io5';
 
-function ModalSetting({ state, toggle, switchState }) {
+function ModalSetting({ state, toggle, alertState }) {
   return (
     <div className={`${state && 'absolute inset-0 z-20 h-full'}`}>
       <div
@@ -29,7 +29,7 @@ function ModalSetting({ state, toggle, switchState }) {
           <h1 className='flex-grow text-center text-2xl lg:text-3xl'>PaRA</h1>
         </div>
         <ModalHead />
-        <ModalBody switchState={switchState} />
+        <ModalBody alertState={alertState} />
         <ModalFooter />
       </div>
     </div>
