@@ -1,5 +1,4 @@
 import { useState } from 'react';
-// import { FETCH_TIME } from '../../../config';
 
 function MapLabel({ map }) {
   const [estimatedTime, setEstimatedTime] = useState(10);
@@ -8,27 +7,22 @@ function MapLabel({ map }) {
   map.setAddress = setAddress;
 
   /**
-   * Calculates the travel time in minutes between two geographic points for a public utility vehicle (PUV) traveling.
-   * @returns {number} The travel time in minutes between the user's current location and the PUV's destination.
-   */
+
+* Calculates the travel time in minutes based on the distance and default speed.
+* @returns {string} The travel time in minutes as a string with no decimal places.
+*/
   const getTravelTimeInMinutes = function () {
     const DEFAULT_SPEED = 20; // 20 km/h
     const speedInMetersPerSecond = DEFAULT_SPEED / 3.6; // Convert km/h to m/s
     const travelTimeInSeconds = map.distance / speedInMetersPerSecond;
     const travelTimeInMinutes = travelTimeInSeconds / 60;
-    setEstimatedTime(travelTimeInMinutes.toFixed(0));
+
+    return travelTimeInMinutes.toFixed(0);
   };
 
-  /**
-
-  * Calculates and sets the estimated travel time in minutes between the user's current location and the PUV's destination.
-  * Uses the getTravelTimeInMinutes function to calculate the travel time based on the geographic coordinates of the user and the PUV's destination.
-  * Updates the estimatedTime state with the calculated travel time in minutes.
-  * @function
-  * @memberof coordinates
-  */
-  map.updateEstimatedTime = function () {
-    getTravelTimeInMinutes();
+  // Place in map object to use the setEstimatedTime function in Bing map component
+  map.updateEstimatedTime = () => {
+    setEstimatedTime(getTravelTimeInMinutes());
   };
 
   /**
