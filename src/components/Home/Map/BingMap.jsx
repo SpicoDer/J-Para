@@ -36,6 +36,7 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
 
         // NOTE: Initialize the map once the script has loaded
         window.initMap = () => {
+          // Create instance of map
           const map = new Microsoft.Maps.Map(document.getElementById('map'), {
             credentials:
               'AiPKZ0UNBJO5u_ZL2cGw2YDZLiZYiZIiOfI_wBzlfGG1RFcvl63BsHndlXFihfGO',
@@ -44,7 +45,6 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
               paraMap.coordinates.userCoords.longitude
             ),
             zoom: 16,
-            enableRotation: true,
             mapTypeId: Microsoft.Maps.MapTypeId.road,
             customMapStyle: {
               elements: {
@@ -81,29 +81,24 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
             );
           };
 
-          const userPinOptions = {
-            icon: userIcon,
-            anchor: new Microsoft.Maps.Point(24, 48),
-            title: 'USER',
-            textOffset: new Microsoft.Maps.Point(0, 5),
-          };
-
-          const puvPinOptions = {
-            icon: paraIcon,
-            anchor: new Microsoft.Maps.Point(24, 48),
-            title: 'PUV',
-            textOffset: new Microsoft.Maps.Point(0, 5),
+          const pinOptions = function (icon, title) {
+            return {
+              icon,
+              anchor: new Microsoft.Maps.Point(24, 48),
+              title,
+              textOffset: new Microsoft.Maps.Point(0, 5),
+            };
           };
 
           const addUserPinOnMap = function (coords) {
-            userPin = createPinInstance(coords, userPinOptions);
+            userPin = createPinInstance(coords, pinOptions(userIcon, 'USER'));
             userPinLayer.clear();
             userPinLayer.add(userPin);
             paraMap.coordinates.userCoords = userPin.getLocation();
           };
 
           const addPuvPinOnMap = function (coords) {
-            puvPin = createPinInstance(coords, puvPinOptions);
+            puvPin = createPinInstance(coords, pinOptions(paraIcon, 'PUV'));
             puvPinlayer.clear();
             puvPinlayer.add(puvPin);
             paraMap.coordinates.puvCoords = puvPin.getLocation();
@@ -136,36 +131,24 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
           };
           centerPins();
 
+          // This pass the function to paraMap obj to be use in the button component
           paraMap.centerUserHandler = function () {
-            try {
-              map.setView({ center: userPin.getLocation(), zoom: 16 });
-            } catch {
-              toast.error('No location found');
-            }
+            map.setView({ center: userPin.getLocation(), zoom: 16 });
           };
 
           paraMap.centerPuvHandler = function () {
-            try {
-              map.setView({ center: puvPin.getLocation(), zoom: 16 });
-            } catch {
-              toast.error('Waiting for location');
-            }
+            map.setView({ center: puvPin.getLocation(), zoom: 16 });
           };
 
           // NOTE: Reverse geocoding
 
+          //Create an instance of the search manager.
           let searchManager;
+          Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
+            searchManager = new Microsoft.Maps.Search.SearchManager(map);
+          });
 
           const reverseGeocode = function () {
-            //If search manager is not defined, load the search module.
-            if (!searchManager) {
-              //Create an instance of the search manager and call the reverseGeocode function again.
-              Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
-                searchManager = new Microsoft.Maps.Search.SearchManager(map);
-                reverseGeocode();
-              });
-            }
-
             const searchRequest = {
               location: puvPin.getLocation(),
               callback: address => {
@@ -209,6 +192,16 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
             );
           });
 
+          // Render Options
+          const renderOptions = function () {
+            directionsManager.setRenderOptions({
+              waypointPushpinOptions: {
+                visible: false,
+              },
+              autoUpdateMapView: false,
+            });
+          };
+
           function calculateRouteDistance(e) {
             //Get the current route index.
             const routeIdx = directionsManager.getRequestOptions().routeIndex;
@@ -221,24 +214,17 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
 
           function directionsModule() {
             directionsManager.clearAll();
-
-            // Do not display pushpins for the first and last waypoints
-            directionsManager.setRenderOptions({
-              waypointPushpinOptions: {
-                visible: false,
-                autoUpdateMapView: false,
-              },
-            });
+            renderOptions();
 
             //Create waypoints to route between.
             const puvWaypoint = new Microsoft.Maps.Directions.Waypoint({
               location: puvPin.getLocation(),
             });
-            directionsManager.addWaypoint(puvWaypoint);
-
             const userWaypoint = new Microsoft.Maps.Directions.Waypoint({
               location: userPin.getLocation(),
             });
+
+            directionsManager.addWaypoint(puvWaypoint);
             directionsManager.addWaypoint(userWaypoint);
 
             //Calculate directions.
@@ -250,22 +236,19 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
 
           setTimeout(() => {
             directionsModule();
-            reverseGeocode(); // Get the address of puv
-          }, 5000);
+            reverseGeocode();
+          }, 5_000);
+
+          setInterval(() => {
+            paraMap.updateEstimatedTime();
+            paraMap.triggerNotification();
+          }, 7_000);
 
           setInterval(async () => {
             await getPuvCoords(); // fetch new coordinates of puv
-
-            // re-render the position of pin on map
-            addPuvPinOnMap(paraMap.coordinates.puvCoords);
-
-            directionsModule();
-
+            addPuvPinOnMap(paraMap.coordinates.puvCoords); // re-render the position of pin on map
+            directionsModule(); // display and calculate routes
             reverseGeocode(); // Get the address of puv
-            paraMap.updateEstimatedTime(); // Update the estimated arrival time
-
-            // if estimated arrival time is equal or less than the user alert time
-            paraMap.triggerNotif();
           }, intervalTime);
         };
       } catch (error) {

@@ -105,14 +105,17 @@ function Map({ toggle, state, alertState }) {
   */
   function triggerNotification() {
     // Check the state of toggle button
-    let alertState;
+    let activateAlert;
+
     alertState.setAlert(alert => {
-      alertState = alert;
+      activateAlert = alert;
       return alert;
     });
 
     // Trigger notification if alert toggle is ON
-    map.mapNotifSetTriggered(alertState && map.estimatedTime <= map.notifTime);
+    map.mapNotifSetTriggered(
+      activateAlert && map.estimatedTime <= map.notifTime
+    );
   }
 
   return (
