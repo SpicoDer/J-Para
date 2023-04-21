@@ -13,14 +13,21 @@ function Map({ toggle, state, switchState }) {
     },
     notifTime: 5,
     estimatedTime: 0,
-    triggerNotif: triggerNotification,
+    triggerNotification,
   });
 
+  const map = mapRef.current;
+  /**
+
+  * Checks if the user has granted permission to access their location.
+  * @throws {Error} If the user denies location permission or if there is an error checking the permission status.
+  * @returns {Promise<void>}
+  */
   const checkLocPermission = async function () {
     try {
       const result = await navigator.permissions.query({ name: 'geolocation' });
       if (result.state === 'denied') throw new Error();
-    } catch (error) {
+    } catch {
       throw new Error();
     }
   };
@@ -45,11 +52,17 @@ function Map({ toggle, state, switchState }) {
     });
   };
 
+  /**
+
+  * Fetches the user's coordinates and stores them in the mapRef current coordinates object.
+  * @throws {Error} If the user denies location permission or if there is an error retrieving the user's position.
+  * @returns {Promise<void>}
+  */
   const fetchUserCoordinates = async function () {
     try {
       await checkLocPermission();
       const { latitude, longitude } = await getUserPosition();
-      mapRef.current.coordinates.userCoords = {
+      map.coordinates.userCoords = {
         latitude: latitude,
         longitude: longitude,
       };
@@ -60,12 +73,12 @@ function Map({ toggle, state, switchState }) {
 
   /**
     
-    * Asynchronously fetches the coordinates of the public utility vehicle (PUV) from an API.
-    * @async
-    * @function
-    * @returns {Promise<{ latitude: number, longitude: number }>} A promise that resolves with an object containing the PUV's latitude and longitude.
-    * @throws {Error} If an HTTP error occurs or the API response cannot be parsed as JSON.
-    */
+  * Asynchronously fetches the coordinates of the public utility vehicle (PUV) from an API.
+  * @async
+  * @function
+  * @returns {Promise<{ latitude: number, longitude: number }>} A promise that resolves with an object containing the PUV's latitude and longitude.
+  * @throws {Error} If an HTTP error occurs or the API response cannot be parsed as JSON.
+  */
   const fetchPuvCoordinates = async function () {
     try {
       const response = await fetch(
@@ -76,7 +89,7 @@ function Map({ toggle, state, switchState }) {
 
       const fetchCoords = await response.json();
       const { latitude, longitude } = fetchCoords.coordinates;
-      mapRef.current.coordinates.puvCoords = {
+      map.coordinates.puvCoords = {
         latitude: +latitude,
         longitude: +longitude,
       };
@@ -85,6 +98,11 @@ function Map({ toggle, state, switchState }) {
     }
   };
 
+  /**
+
+  * Triggers a notification if the alert toggle is on and the estimated time is less than or equal to the notification time.
+  * @returns {void}
+  */
   function triggerNotification() {
     // Check the state of toggle button
     let alertState;
@@ -94,33 +112,27 @@ function Map({ toggle, state, switchState }) {
     });
 
     // Trigger notification if alert toggle is ON
-    mapRef.current.mapNotifSetTriggered(
-      alertState && mapRef.current.estimatedTime <= mapRef.current.notifTime
-    );
+    map.mapNotifSetTriggered(alertState && map.estimatedTime <= map.notifTime);
   }
 
   return (
     <>
       <BingMap
-        paraMap={mapRef.current}
+        paraMap={map}
         getUserCoords={fetchUserCoordinates}
         getPuvCoords={fetchPuvCoordinates}
       />
-      <MapNotif map={mapRef.current} />
-      <div>
-        <div
-          onClick={() => {
-            toggle(!state);
-          }}
-          className=' absolute left-0 top-0 z-10 m-4 lg:hidden'
-        >
-          <ProfileIcon />
-        </div>
-        <div>
-          <MapLabel map={mapRef.current} />
-        </div>
-        <MapBtns map={mapRef.current} />
+      <MapNotif map={map} />
+      <div
+        onClick={() => {
+          toggle(!state);
+        }}
+        className=' absolute left-0 top-0 z-10 m-4 lg:hidden'
+      >
+        <ProfileIcon />
       </div>
+      <MapLabel map={map} />
+      <MapBtns map={map} />
     </>
   );
 }
