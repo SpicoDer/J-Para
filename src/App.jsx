@@ -7,6 +7,7 @@ import SignUp from './pages/SignUp.jsx';
 import Profile from './pages/Profile.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
+import Guest from './components/Guest.jsx';
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
           <Route path='/profile' element={<PrivateRoute />}>
             <Route path='/profile' element={<Profile />} />
           </Route>
+          <Route path='/guest' element={<Guest />} />
         </Routes>
       </Router>
       <ToastContainer
