@@ -4,9 +4,17 @@ import { useState } from 'react';
 function MapNotif({ map }) {
   const [triggered, setTriggered] = useState(false);
 
+  const alertSound = function () {
+    const sound = new Audio('/assets/sound_alert.mp3');
+    sound.play();
+  };
+
   // Create a method to update the triggered state
   map.mapNotifSetTriggered = function (isTriggered) {
-    setTriggered(isTriggered);
+    if (isTriggered) {
+      setTriggered(isTriggered);
+      alertSound();
+    }
   };
 
   return (
