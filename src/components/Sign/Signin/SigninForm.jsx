@@ -78,6 +78,15 @@ function SigninForm() {
       toast.error('Could not authorize with Google');
     }
   };
+
+  const guestSignin = async function () {
+    const auth = getAuth();
+    const email = 'cukkadulmo@gufum.com';
+    const password = 'johncarlo2001';
+    await signInWithEmailAndPassword(auth, email, password);
+
+    navigate('/');
+  };
   return (
     <>
       <form id='sign-in' onSubmit={submitHandler} className='mb-20 space-y-4'>
@@ -95,12 +104,20 @@ function SigninForm() {
           value={password}
           handler={passwordChangeHandler}
         />
-        <p
-          onClick={() => navigate('/forgot-password')}
-          className='cursor-pointer text-center text-sm capitalize underline'
-        >
-          forgot password?
-        </p>
+        <div className='flex justify-between'>
+          <p
+            onClick={() => navigate('/forgot-password')}
+            className='cursor-pointer text-center text-sm capitalize underline transition hover:text-prim-400'
+          >
+            forgot password?
+          </p>
+          <p
+            onClick={guestSignin}
+            className='cursor-pointer text-center text-sm capitalize text-prim-400 underline'
+          >
+            Sign in as Guest
+          </p>
+        </div>
       </form>
       <button type='submit' form='sign-in' className='btn-prim w-full'>
         sign in
