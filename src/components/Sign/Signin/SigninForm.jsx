@@ -95,20 +95,12 @@ function SigninForm() {
           value={password}
           handler={passwordChangeHandler}
         />
-        <div className='flex justify-between'>
-          <p
-            onClick={() => navigate('/forgot-password')}
-            className='cursor-pointer text-center  text-sm capitalize underline transition hover:text-prim-400'
-          >
-            forgot password?
-          </p>
-          <p
-            onClick={() => navigate('/guest')}
-            className='cursor-pointer text-center text-sm capitalize text-prim-400 underline'
-          >
-            sign in as guest
-          </p>
-        </div>
+        <p
+          onClick={() => navigate('/forgot-password')}
+          className='cursor-pointer text-center text-sm capitalize underline'
+        >
+          forgot password?
+        </p>
       </form>
       <button type='submit' form='sign-in' className='btn-prim w-full'>
         sign in
