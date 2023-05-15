@@ -28,6 +28,11 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
     script.src = `https://www.bing.com/api/maps/mapcontrol?callback=initMap`;
     document.body.appendChild(script);
 
+    // To clean up interval and timeout outside function
+    let initialTimeout;
+    let shortInterval;
+    let longInterval;
+
     (async () => {
       try {
         // get the coordinates first
@@ -234,17 +239,17 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
           // NOTE: Update puv information every x secs
           const intervalTime = FETCH_TIME * 1000; // Convert secs to ms
 
-          setTimeout(() => {
+          initialTimeout = setTimeout(() => {
             directionsModule();
             reverseGeocode();
           }, 5_000);
 
-          setInterval(() => {
+          shortInterval = setInterval(() => {
             paraMap.updateEstimatedTime();
             paraMap.triggerNotification();
           }, 7_000);
 
-          setInterval(async () => {
+          longInterval = setInterval(async () => {
             await getPuvCoords(); // fetch new coordinates of puv
             addPuvPinOnMap(paraMap.coordinates.puvCoords); // re-render the position of pin on map
             directionsModule(); // display and calculate routes
@@ -258,8 +263,12 @@ function BingMap({ paraMap, getUserCoords, getPuvCoords }) {
 
     // NOTE: Clean up the script and initMap function
     return () => {
+      clearInterval(shortInterval);
+      clearInterval(longInterval);
+      clearTimeout(initialTimeout);
       document.body.removeChild(script);
       delete window.initMap;
+      console.log('clean');
     };
   }, []);
 

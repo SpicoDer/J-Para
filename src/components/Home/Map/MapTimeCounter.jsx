@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { IoIosNotifications } from 'react-icons/io';
 
 function MapIncrementBtn({ map }) {
   let [notifTime, setNotifTime] = useState(5);
@@ -14,7 +15,10 @@ function MapIncrementBtn({ map }) {
       >
         -
       </span>
-      <span className='px-2 text-2xl text-white'>{notifTime}</span>
+      <span className='flex items-center px-1 text-2xl text-white'>
+        <IoIosNotifications className='icon' />
+        {notifTime}
+      </span>
       <span
         onClick={() => {
           setNotifTime(time => time + 1);
