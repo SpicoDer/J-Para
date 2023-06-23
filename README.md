@@ -1,7 +1,7 @@
 # PaRA Web Application
 
 [![Website](https://img.shields.io/website?label=Demo&style=flat-square&url=https%3A%2F%2Fjpara.netlify.app%2F)](https://jpara.netlify.app/)
-[![License](https://img.shields.io/github/license/SpicoDer/J-Para)](https://github.com/SpicoDer/J-Para/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 The PaRA Web Application is a front-end project developed for a Computer Engineering thesis, aimed at tracking and monitoring real-time coordinates transmitted by the PaRA Coordinates Tracker device. It is built using React JS, Firebase for authentication, Bing Maps API for mapping features, and Tailwind CSS for UI design.
 
